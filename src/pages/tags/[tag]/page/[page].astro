@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+import { getPublishedPosts } from "@/lib/content";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  const map = new Map<string, typeof posts>();
+  posts.forEach((post) => {
+    post.data.tags.forEach((tag) => {
+      if (!map.has(tag)) map.set(tag, []);
+      map.get(tag)!.push(post);
+    });
+  });
+
+  const paths: Array<{ params: { tag: string; page: string } }> = [];
+  map.forEach((items, tag) => {
+    const pageCount = Math.ceil(items.length / 10);
+    for (let page = 2; page <= pageCount; page += 1) {
+      paths.push({ params: { tag, page: String(page) } });
+    }
+  });
+  return paths;
+}
+
+const { tag, page } = Astro.params;
+const all = (await getPublishedPosts()).filter((post) => post.data.tags.includes(tag ?? ""));
+const current = Number(page ?? "1");
+const chunks = all.slice((current - 1) * 10, current * 10);
+const pageCount = Math.max(1, Math.ceil(all.length / 10));
+---
+
+<BaseLayout title={`标签 ${tag} · 第 ${page} 页`}>
+  <section class="space-y-4">
+    <h1 class="text-2xl font-bold">#{tag} · 第 {page} 页</h1>
+    {chunks.map((post) => <PostCard post={post} />)}
+    <nav class="flex gap-2">
+      {Array.from({ length: pageCount }).map((_, idx) => (
+        <a class="rounded border px-3 py-1" href={idx === 0 ? `/tags/${tag}/` : `/tags/${tag}/page/${idx + 1}/`}>
+          {idx + 1}
+        </a>
+      ))}
+    </nav>
+  </section>
+</BaseLayout>

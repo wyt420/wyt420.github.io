@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPublishedPosts, toTagMap } from "@/lib/content";
+
+const posts = await getPublishedPosts();
+const tags = toTagMap(posts);
+---
+
+<BaseLayout title="标签">
+  <section class="space-y-4">
+    <h1 class="text-2xl font-bold">标签云</h1>
+    <div class="flex flex-wrap gap-3">
+      {tags.map((item) => (
+        <a href={`/tags/${item.tag}/`} class="rounded border px-3 py-2">
+          #{item.tag} ({item.count})
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectsBoard from "@/components/ProjectsBoard.vue";
+import { projects } from "@/config/projects";
+---
+
+<BaseLayout title="项目作品集">
+  <section class="space-y-4">
+    <h1 class="text-2xl font-bold">项目作品集</h1>
+    <p class="text-sm text-slate-600 dark:text-slate-300">支持按技术栈与项目类型筛选，并实时拉取 GitHub Star/Fork。</p>
+    <ProjectsBoard client:load projects={projects} />
+  </section>
+</BaseLayout>

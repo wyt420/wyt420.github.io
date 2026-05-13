@@ -1,0 +1,75 @@
+---
+/**
+ * 全站外壳布局：SEO 元信息、首屏防主题闪烁脚本、顶栏导航与主内容插槽。
+ * 主题与字号由 ThemeControls（Vue）与 head 内联脚本共同写入 localStorage + DOM。
+ */
+import { siteConfig } from "@/config/site";
+import ThemeControls from "@/components/ThemeControls.vue";
+import MobileBottomNav from "@/components/MobileBottomNav.vue";
+import GlobalHotkeys from "@/components/GlobalHotkeys.vue";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const seoTitle = title ? `${title} | ${siteConfig.title}` : siteConfig.title;
+const seoDescription = description ?? siteConfig.description;
+const seoImage = image ?? `${siteConfig.siteUrl}/default-og.png`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={seoImage} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seoTitle} />
+    <meta name="twitter:description" content={seoDescription} />
+    <meta name="twitter:image" content={seoImage} />
+    <script is:inline>
+      (() => {
+        const mode = localStorage.getItem("theme-mode") ?? "system";
+        const root = document.documentElement;
+        const setTheme = (value) => {
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const dark = value === "dark" || (value === "system" && prefersDark);
+          root.classList.toggle("dark", dark);
+        };
+        setTheme(mode);
+        const font = localStorage.getItem("font-size") ?? "base";
+        root.dataset.fontSize = font;
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen antialiased">
+    <header class="sticky top-0 z-40 border-b border-surface-ink/10 bg-white/90 backdrop-blur-md dark:border-white/10 dark:bg-surface-ink/90">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <a href="/" class="font-semibold text-brand hover:text-brand-accent">{siteConfig.title}</a>
+        <nav class="hidden gap-4 text-sm md:flex">
+          {siteConfig.nav.map((item) => (
+            <a href={item.href} class="text-surface-ink/80 hover:text-brand dark:text-surface-muted/90">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <ThemeControls client:load />
+      </div>
+    </header>
+    <main class="mx-auto max-w-6xl px-4 py-6">
+      <slot />
+    </main>
+    <GlobalHotkeys client:idle />
+    <MobileBottomNav client:idle navItems={siteConfig.nav.slice(0, 4)} />
+  </body>
+</html>

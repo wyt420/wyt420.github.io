@@ -1,0 +1,39 @@
+/**
+ * 全局样式入口：Tailwind 层 + 设计 token。
+ * 主色 #165DFF、辅助 #722ED1、浅底 #F5F7FA、深色 #1D2129；动效统一 300ms ease-in-out。
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+  --color-primary: #165dff;
+  --color-accent: #722ed1;
+  --color-surface: #f5f7fa;
+  --color-ink: #1d2129;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-surface-muted text-surface-ink transition-colors duration-300 ease-in-out dark:bg-surface-ink dark:text-surface-muted;
+}
+
+/* 正文内代码块容器：与 PostRuntime 中「复制」按钮配合 */
+.prose pre {
+  @apply relative overflow-x-auto rounded-xl border border-surface-ink/10 dark:border-white/10;
+}
+
+.prose code {
+  @apply before:content-none after:content-none;
+}
+
+/* 通用交互：与品牌色弱关联的过渡 */
+a,
+button,
+select {
+  @apply transition-all duration-300 ease-in-out;
+}

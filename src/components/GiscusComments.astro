@@ -1,0 +1,36 @@
+---
+interface Props {
+  mapping?: "pathname" | "url" | "title" | "og:title";
+}
+const { mapping = "pathname" } = Astro.props;
+---
+
+<section class="mt-8">
+  <h3 class="mb-3 text-lg font-semibold">评论</h3>
+  <div id="giscus-container" data-mapping={mapping}></div>
+</section>
+
+<script is:inline>
+  const root = document.getElementById("giscus-container");
+  if (root && !root.querySelector("script")) {
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.setAttribute("data-repo", "your-name/your-repo");
+    script.setAttribute("data-repo-id", "REPLACE_REPO_ID");
+    script.setAttribute("data-category", "General");
+    script.setAttribute("data-category-id", "REPLACE_CATEGORY_ID");
+    script.setAttribute("data-mapping", root.dataset.mapping ?? "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute(
+      "data-theme",
+      document.documentElement.classList.contains("dark") ? "dark_dimmed" : "light"
+    );
+    script.setAttribute("data-lang", "zh-CN");
+    root.appendChild(script);
+  }
+</script>

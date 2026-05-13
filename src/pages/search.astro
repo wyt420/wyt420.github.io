@@ -1,0 +1,30 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="搜索">
+  <section class="space-y-4">
+    <h1 class="text-2xl font-bold">全文搜索</h1>
+    <input
+      data-global-search
+      id="search-input"
+      type="search"
+      placeholder="输入关键词，搜索标题/正文/标签..."
+      class="w-full rounded border border-slate-300 px-3 py-2 dark:border-slate-700 dark:bg-slate-900"
+    />
+    <div id="search-result"></div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  import("/pagefind/pagefind-ui.js").then(({ default: PagefindUI }) => {
+    new PagefindUI({
+      element: "#search-result",
+      showSubResults: true,
+      showImages: false,
+      highlightParam: "highlight",
+      processTerm: (term) => term.trim(),
+      translations: { placeholder: "搜索博客内容..." }
+    });
+  });
+</script>

@@ -1,0 +1,115 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ResumePdfButton from "@/components/ResumePdfButton.vue";
+import { resumeData } from "@/config/resume";
+import { siteConfig } from "@/config/site";
+---
+
+<BaseLayout title="在线简历">
+  <section class="space-y-4">
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-bold">在线简历</h1>
+      <ResumePdfButton client:load />
+    </div>
+
+    <article id="resume-content" class="space-y-6 rounded-xl border border-slate-200 p-5 dark:border-slate-800">
+      <header class="flex items-center gap-4">
+        <img src={siteConfig.avatar} alt={resumeData.name} width="80" height="80" class="rounded-full" />
+        <div>
+          <h2 class="text-xl font-semibold">{resumeData.name}</h2>
+          <p>{resumeData.title}</p>
+          <p class="text-sm text-slate-500">{resumeData.intro}</p>
+          <p class="text-sm text-slate-500">
+            {resumeData.location} · {resumeData.yearsOfExperience}
+          </p>
+        </div>
+      </header>
+
+      <section>
+        <h3 class="mb-2 font-semibold">联系方式</h3>
+        <ul class="grid gap-2 text-sm md:grid-cols-2">
+          {resumeData.contacts.map((item) => (
+            <li>
+              {item.type}：<a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">技术栈</h3>
+        <div class="space-y-3">
+          {resumeData.skills.map((group) => (
+            <div>
+              <h4 class="text-sm font-medium">{group.category}</h4>
+              <div class="mt-2 grid gap-2 md:grid-cols-2">
+                {group.items.map((skill) => (
+                  <div class="rounded border p-2 text-sm">
+                    <div class="mb-1 flex items-center justify-between">
+                      <span>{skill.name}</span>
+                      <span>{skill.level}%</span>
+                    </div>
+                    <div class="h-2 rounded bg-slate-200 dark:bg-slate-700">
+                      <div class="h-2 rounded bg-sky-500" style={`width: ${skill.level}%`}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">工作经历</h3>
+        <div class="space-y-4">
+          {resumeData.experiences.map((exp) => (
+            <article class="rounded border p-3">
+              <h4 class="font-medium">
+                {exp.company} · {exp.role}
+              </h4>
+              <p class="text-sm text-slate-500">{exp.period}</p>
+              <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+                {exp.highlights.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">教育背景</h3>
+        <ul class="space-y-2 text-sm">
+          {resumeData.education.map((edu) => (
+            <li>
+              {edu.school} · {edu.degree} · {edu.period} {edu.extras ? `· ${edu.extras}` : ""}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="grid gap-4 md:grid-cols-2">
+        <div>
+          <h3 class="mb-2 font-semibold">证书/语言</h3>
+          <ul class="list-disc pl-5 text-sm">
+            {resumeData.certificates.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="mb-2 font-semibold">开源贡献</h3>
+          <ul class="space-y-1 text-sm">
+            {resumeData.openSource.map((item) => (
+              <li>
+                {item.project}：{item.contribution} {item.link ? <a href={item.link}>链接</a> : ""}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </article>
+  </section>
+</BaseLayout>

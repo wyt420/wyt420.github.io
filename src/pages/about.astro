@@ -1,0 +1,65 @@
+---
+/** 关于页：个人简介、统计数据与外链；数据来自 site.ts / profileStats。 */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profileStats, siteConfig } from "@/config/site";
+import { getPublishedPosts } from "@/lib/content";
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="关于">
+  <section class="space-y-4">
+    <h1 class="text-2xl font-bold">关于我</h1>
+    <div class="flex items-center gap-4">
+      <img src={siteConfig.avatar} alt="头像" width="88" height="88" class="rounded-full" loading="lazy" />
+      <p class="text-sm text-surface-ink/75 dark:text-surface-muted/85">
+        我是 {siteConfig.author}。本站源码托管在
+        <a class="text-brand hover:underline" href="https://github.com/wyt420/wyt420.github.io">wyt420/wyt420.github.io</a>
+        ，由 Astro + Vue + Tailwind 构建并部署在 GitHub Pages。
+      </p>
+    </div>
+    <div class="grid gap-3 md:grid-cols-4">
+      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
+        博客数：{posts.length}
+      </div>
+      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
+        GitHub Stars：{profileStats.totalStars}
+      </div>
+      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
+        提交次数：{profileStats.totalCommits}
+      </div>
+      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
+        项目数：{profileStats.projects}
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <a
+        href={siteConfig.social.github}
+        class="rounded-lg border border-surface-ink/15 px-3 py-1 hover:border-brand hover:text-brand dark:border-white/15"
+      >
+        GitHub
+      </a>
+      <a
+        href={siteConfig.social.linkedin}
+        class="rounded-lg border border-surface-ink/15 px-3 py-1 hover:border-brand-accent hover:text-brand-accent dark:border-white/15"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={siteConfig.social.twitter}
+        class="rounded-lg border border-surface-ink/15 px-3 py-1 hover:border-brand hover:text-brand dark:border-white/15"
+      >
+        Twitter
+      </a>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <a href="/resume" class="rounded-lg bg-brand px-4 py-2 text-white hover:bg-brand/90">查看在线简历</a>
+      <a
+        href="/projects"
+        class="rounded-lg border border-brand/40 px-4 py-2 text-brand hover:bg-brand/10 dark:border-brand/50 dark:text-brand"
+      >
+        查看项目作品集
+      </a>
+    </div>
+  </section>
+</BaseLayout>

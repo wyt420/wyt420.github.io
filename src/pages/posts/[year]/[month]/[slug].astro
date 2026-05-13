@@ -1,0 +1,106 @@
+---
+import { getEntry, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ReadingProgress from "@/components/ReadingProgress.vue";
+import PostRuntime from "@/components/PostRuntime.vue";
+import LikeShareBar from "@/components/LikeShareBar.vue";
+import GiscusComments from "@/components/GiscusComments.astro";
+import { estimateReadingTime, getPublishedPosts } from "@/lib/content";
+import { postPermalink } from "@/lib/url";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => {
+    const year = String(post.data.pubDate.getFullYear());
+    const month = String(post.data.pubDate.getMonth() + 1).padStart(2, "0");
+    const slug = post.id.split("/").pop() ?? post.id;
+    return { params: { year, month, slug }, props: { entryId: post.id } };
+  });
+}
+
+const { entryId } = Astro.props as { entryId: string };
+const post = await getEntry("posts", entryId);
+if (!post) throw new Error(`Post not found: ${entryId}`);
+
+const allPosts = await getPublishedPosts();
+const index = allPosts.findIndex((item) => item.id === post.id);
+const prev = index >= 0 ? allPosts[index + 1] : undefined;
+const next = index > 0 ? allPosts[index - 1] : undefined;
+const relatedPosts = allPosts
+  .filter((item) => item.id !== post.id)
+  .map((item) => ({
+    post: item,
+    score: item.data.tags.filter((tag: string) => post.data.tags.includes(tag)).length
+  }))
+  .filter((item) => item.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3)
+  .map((item) => item.post);
+
+const { Content, headings } = await render(post);
+const readingMinutes = Math.max(1, Math.round(estimateReadingTime(post.body ?? "")));
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.cover ? `${Astro.url.origin}${post.data.cover.src}` : undefined}
+>
+  <ReadingProgress client:load />
+  <article class="grid gap-6 lg:grid-cols-[1fr_260px]">
+    <section>
+      <header class="mb-5 space-y-2">
+        <h1 class="text-3xl font-bold">{post.data.title}</h1>
+        <div class="flex flex-wrap gap-3 text-sm text-slate-500">
+          <span>发布：{post.data.pubDate.toLocaleDateString("zh-CN")}</span>
+          <span>更新：{(post.data.updatedDate ?? post.data.pubDate).toLocaleDateString("zh-CN")}</span>
+          <span>阅读时长：约 {readingMinutes} 分钟</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag: string) => (
+            <a href={`/tags/${tag}/`} class="rounded bg-slate-100 px-2 py-1 text-xs dark:bg-slate-900">
+              #{tag}
+            </a>
+          ))}
+        </div>
+      </header>
+      <div class="prose prose-slate max-w-none dark:prose-invert">
+        <Content />
+      </div>
+      <div class="mt-6 border-t border-slate-200 pt-6 dark:border-slate-800">
+        <LikeShareBar client:load slug={post.id} />
+      </div>
+      <nav class="mt-6 grid gap-3 text-sm md:grid-cols-2">
+        <a class="rounded border p-3" href={prev ? postPermalink(prev) : "#"}>
+          {prev ? `上一篇：${prev.data.title}` : "没有上一篇"}
+        </a>
+        <a class="rounded border p-3" href={next ? postPermalink(next) : "#"}>
+          {next ? `下一篇：${next.data.title}` : "没有下一篇"}
+        </a>
+      </nav>
+      {relatedPosts.length > 0 && (
+        <section class="mt-6">
+          <h3 class="mb-2 font-semibold">相关推荐</h3>
+          <ul class="space-y-1 text-sm">
+            {relatedPosts.map((item) => (
+              <li>
+                <a href={postPermalink(item)}>{item.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      <GiscusComments />
+    </section>
+
+    <aside class="sticky top-20 hidden h-fit rounded-xl border border-slate-200 p-4 lg:block dark:border-slate-800">
+      <h3 class="mb-2 font-semibold">目录</h3>
+      <ul class="space-y-2 text-sm">
+        {headings.map((item: { slug: string; text: string }) => (
+          <li><a href={`#${item.slug}`}>{item.text}</a></li>
+        ))}
+      </ul>
+    </aside>
+  </article>
+  <PostRuntime client:load prev={prev ? postPermalink(prev) : undefined} next={next ? postPermalink(next) : undefined} />
+</BaseLayout>
