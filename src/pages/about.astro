@@ -1,65 +1,130 @@
 ---
-/** 关于页：个人简介、统计数据与外链；数据来自 site.ts / profileStats。 */
+/** 关于页：简介 + 外链；GitHub 统计在每次构建时拉取（见 src/lib/githubStats.ts）。 */
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { profileStats, siteConfig } from "@/config/site";
+import PageHeader from "@/components/PageHeader.astro";
+import { siteConfig } from "@/config/site";
 import { getPublishedPosts } from "@/lib/content";
+import {
+  fetchGithubAboutStats,
+  formatGithubStatResult,
+  githubLoginFromUrl,
+  hintForGithubStat
+} from "@/lib/githubStats";
 
 const posts = await getPublishedPosts();
+const ghLogin = githubLoginFromUrl(siteConfig.social.github) ?? "wyt420";
+const token = import.meta.env.GITHUB_API_TOKEN;
+const ghStats = await fetchGithubAboutStats(ghLogin, token);
+
+const statCards = [
+  { label: "博客文章", value: String(posts.length), hint: "", valueClass: "" },
+  {
+    label: "GitHub Stars",
+    value: formatGithubStatResult(ghStats.totalStars),
+    hint: hintForGithubStat("stars", ghStats.totalStars),
+    valueClass: ghStats.totalStars.status === "timeout" ? "text-amber-700 dark:text-amber-400" : ""
+  },
+  {
+    label: "提交贡献（近12月）",
+    value: formatGithubStatResult(ghStats.commitsLastYear),
+    hint: hintForGithubStat("commits", ghStats.commitsLastYear),
+    valueClass: ghStats.commitsLastYear.status === "timeout" ? "text-amber-700 dark:text-amber-400" : ""
+  },
+  {
+    label: "GitHub 公开仓库",
+    value: formatGithubStatResult(ghStats.publicRepos),
+    hint: hintForGithubStat("repos", ghStats.publicRepos),
+    valueClass: ghStats.publicRepos.status === "timeout" ? "text-amber-700 dark:text-amber-400" : ""
+  }
+];
 ---
 
 <BaseLayout title="关于">
-  <section class="space-y-4">
-    <h1 class="text-2xl font-bold">关于我</h1>
-    <div class="flex items-center gap-4">
-      <img src={siteConfig.avatar} alt="头像" width="88" height="88" class="rounded-full" loading="lazy" />
-      <p class="text-sm text-surface-ink/75 dark:text-surface-muted/85">
-        我是 {siteConfig.author}。本站源码托管在
-        <a class="text-brand hover:underline" href="https://github.com/wyt420/wyt420.github.io">wyt420/wyt420.github.io</a>
+  <PageHeader
+    eyebrow="About"
+    title="关于我"
+    description="王雨婷 · 信息化工程师。记录技术笔记、项目实践与博客工程化折腾。"
+  />
+
+  <div class="flex flex-col gap-8 md:flex-row md:items-start">
+    <div class="flex shrink-0 items-center gap-4 rounded-3xl border border-surface-ink/10 bg-white/70 p-5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-surface-ink/50 md:flex-col md:items-center md:py-8">
+      <img src={siteConfig.avatar} alt="头像" width="96" height="96" class="rounded-2xl ring-2 ring-brand/20" loading="lazy" />
+      <p class="max-w-xs text-sm leading-relaxed text-surface-ink/75 dark:text-surface-muted/85 md:text-center">
+        本站源码：
+        <a class="font-medium text-brand hover:underline" href="https://github.com/wyt420/wyt420.github.io">wyt420/wyt420.github.io</a>
         ，由 Astro + Vue + Tailwind 构建并部署在 GitHub Pages。
       </p>
     </div>
-    <div class="grid gap-3 md:grid-cols-4">
-      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
-        博客数：{posts.length}
+
+    <div class="min-w-0 flex-1 space-y-6">
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          statCards.map((item) => (
+            <div
+              title={item.hint || undefined}
+              class="rounded-2xl border border-surface-ink/10 bg-gradient-to-br from-white/90 to-brand/[0.04] p-4 shadow-sm dark:border-white/10 dark:from-surface-ink/80 dark:to-brand-accent/[0.08]"
+            >
+              <div
+                class:list={[
+                  "text-2xl font-bold tabular-nums text-surface-ink dark:text-surface-muted",
+                  item.valueClass,
+                  item.value.length > 8 ? "text-base leading-snug sm:text-lg" : ""
+                ]}
+              >
+                {item.value}
+              </div>
+              <div class="mt-1 text-xs font-medium uppercase tracking-wider text-surface-ink/50 dark:text-surface-muted/55">
+                {item.label}
+              </div>
+            </div>
+          ))
+        }
       </div>
-      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
-        GitHub Stars：{profileStats.totalStars}
+
+      <p class="text-xs leading-relaxed text-surface-ink/50 dark:text-surface-muted/50">
+        以上 GitHub 数据在<strong>每次执行构建</strong>时拉取；若出现<strong>获取数据超时</strong>，说明单次请求超过
+        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">GITHUB_FETCH_TIMEOUT_MS</code>（默认 15000ms），可调大后重试。本地请将
+        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">GITHUB_API_TOKEN</code> 写入
+        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">.env</code>。GitHub Actions 部署已默认注入
+        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">GITHUB_TOKEN</code>
+        作为同名变量。
+      </p>
+
+      <div class="flex flex-wrap gap-2">
+        <a
+          href={siteConfig.social.github}
+          class="rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium transition hover:border-brand/40 hover:text-brand dark:border-white/10 dark:bg-surface-ink/50"
+        >
+          GitHub
+        </a>
+        <a
+          href={siteConfig.social.linkedin}
+          class="rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium transition hover:border-brand-accent/40 hover:text-brand-accent dark:border-white/10 dark:bg-surface-ink/50"
+        >
+          LinkedIn
+        </a>
+        <a
+          href={siteConfig.social.twitter}
+          class="rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium transition hover:border-brand/40 hover:text-brand dark:border-white/10 dark:bg-surface-ink/50"
+        >
+          Twitter
+        </a>
       </div>
-      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
-        提交次数：{profileStats.totalCommits}
-      </div>
-      <div class="rounded-lg border border-surface-ink/10 bg-white/80 p-3 dark:border-white/10 dark:bg-surface-ink/50">
-        项目数：{profileStats.projects}
+
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="/resume"
+          class="rounded-full bg-gradient-to-r from-brand to-sky-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand/25 transition hover:shadow-lg hover:shadow-brand/35"
+        >
+          查看在线简历
+        </a>
+        <a
+          href="/projects"
+          class="rounded-full border border-brand/35 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand transition hover:border-brand/55 hover:bg-brand/10 dark:border-sky-400/40 dark:text-sky-300"
+        >
+          项目作品集
+        </a>
       </div>
     </div>
-    <div class="flex flex-wrap gap-2">
-      <a
-        href={siteConfig.social.github}
-        class="rounded-lg border border-surface-ink/15 px-3 py-1 hover:border-brand hover:text-brand dark:border-white/15"
-      >
-        GitHub
-      </a>
-      <a
-        href={siteConfig.social.linkedin}
-        class="rounded-lg border border-surface-ink/15 px-3 py-1 hover:border-brand-accent hover:text-brand-accent dark:border-white/15"
-      >
-        LinkedIn
-      </a>
-      <a
-        href={siteConfig.social.twitter}
-        class="rounded-lg border border-surface-ink/15 px-3 py-1 hover:border-brand hover:text-brand dark:border-white/15"
-      >
-        Twitter
-      </a>
-    </div>
-    <div class="flex flex-wrap gap-3">
-      <a href="/resume" class="rounded-lg bg-brand px-4 py-2 text-white hover:bg-brand/90">查看在线简历</a>
-      <a
-        href="/projects"
-        class="rounded-lg border border-brand/40 px-4 py-2 text-brand hover:bg-brand/10 dark:border-brand/50 dark:text-brand"
-      >
-        查看项目作品集
-      </a>
-    </div>
-  </section>
+  </div>
 </BaseLayout>

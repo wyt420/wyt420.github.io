@@ -1,20 +1,32 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
 import { getPublishedPosts, toTagMap } from "@/lib/content";
 
 const posts = await getPublishedPosts();
 const tags = toTagMap(posts);
+const max = Math.max(1, ...tags.map((t) => t.count));
 ---
 
 <BaseLayout title="标签">
-  <section class="space-y-4">
-    <h1 class="text-2xl font-bold">标签云</h1>
-    <div class="flex flex-wrap gap-3">
-      {tags.map((item) => (
-        <a href={`/tags/${item.tag}/`} class="rounded border px-3 py-2">
-          #{item.tag} ({item.count})
-        </a>
-      ))}
-    </div>
-  </section>
+  <PageHeader eyebrow="Tags" title="标签云" description="按标签聚合文章，标签大小表示文章数量相对多少。" />
+
+  <div class="flex flex-wrap gap-3">
+    {
+      tags.map((item) => {
+        const ratio = 0.75 + (item.count / max) * 0.55;
+        return (
+          <a
+            href={`/tags/${item.tag}/`}
+            class="rounded-2xl border border-surface-ink/10 bg-white/70 px-4 py-2.5 font-medium shadow-sm backdrop-blur-md transition hover:border-brand/35 hover:shadow-md hover:shadow-brand/10 dark:border-white/10 dark:bg-surface-ink/50 dark:hover:border-brand/40"
+            style={`font-size: ${ratio}rem`}
+          >
+            <span class="text-brand dark:text-sky-400">#</span>
+            {item.tag}
+            <span class="ml-1.5 text-xs tabular-nums text-surface-ink/50 dark:text-surface-muted/50">({item.count})</span>
+          </a>
+        );
+      })
+    }
+  </div>
 </BaseLayout>

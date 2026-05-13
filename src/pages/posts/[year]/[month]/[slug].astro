@@ -47,18 +47,29 @@ const readingMinutes = Math.max(1, Math.round(estimateReadingTime(post.body ?? "
   image={post.data.cover ? `${Astro.url.origin}${post.data.cover.src}` : undefined}
 >
   <ReadingProgress client:load />
-  <article class="grid gap-6 lg:grid-cols-[1fr_260px]">
+  <article class="grid gap-8 lg:grid-cols-[1fr_260px]">
     <section>
-      <header class="mb-5 space-y-2">
-        <h1 class="text-3xl font-bold">{post.data.title}</h1>
-        <div class="flex flex-wrap gap-3 text-sm text-slate-500">
+      <header
+        class="relative mb-8 overflow-hidden rounded-3xl border border-surface-ink/10 bg-gradient-to-br from-white via-slate-50/95 to-brand/[0.05] p-6 shadow-sm dark:border-white/10 dark:from-slate-950 dark:via-slate-900/90 dark:to-brand-accent/[0.1] md:p-8"
+      >
+        <div
+          class="pointer-events-none absolute -right-12 -top-16 h-40 w-40 rounded-full bg-brand/15 blur-3xl dark:bg-brand/25"
+          aria-hidden="true"
+        />
+        <h1 class="relative text-2xl font-bold tracking-tight text-surface-ink dark:text-surface-muted md:text-3xl lg:text-4xl">
+          {post.data.title}
+        </h1>
+        <div class="relative mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-surface-ink/55 dark:text-surface-muted/60">
           <span>发布：{post.data.pubDate.toLocaleDateString("zh-CN")}</span>
           <span>更新：{(post.data.updatedDate ?? post.data.pubDate).toLocaleDateString("zh-CN")}</span>
-          <span>阅读时长：约 {readingMinutes} 分钟</span>
+          <span>阅读约 {readingMinutes} 分钟</span>
         </div>
-        <div class="flex flex-wrap gap-2">
+        <div class="relative mt-4 flex flex-wrap gap-2">
           {post.data.tags.map((tag: string) => (
-            <a href={`/tags/${tag}/`} class="rounded bg-slate-100 px-2 py-1 text-xs dark:bg-slate-900">
+            <a
+              href={`/tags/${tag}/`}
+              class="rounded-full border border-brand/20 bg-brand/5 px-3 py-1 text-xs font-medium text-brand transition hover:border-brand/40 dark:border-sky-400/25 dark:bg-sky-400/10 dark:text-sky-300"
+            >
               #{tag}
             </a>
           ))}
@@ -67,24 +78,42 @@ const readingMinutes = Math.max(1, Math.round(estimateReadingTime(post.body ?? "
       <div class="prose prose-slate max-w-none dark:prose-invert">
         <Content />
       </div>
-      <div class="mt-6 border-t border-slate-200 pt-6 dark:border-slate-800">
+      <div class="mt-8 border-t border-surface-ink/10 pt-8 dark:border-white/10">
         <LikeShareBar client:load slug={post.id} />
       </div>
-      <nav class="mt-6 grid gap-3 text-sm md:grid-cols-2">
-        <a class="rounded border p-3" href={prev ? postPermalink(prev) : "#"}>
+      <nav class="mt-8 grid gap-3 text-sm md:grid-cols-2">
+        <a
+          class:list={[
+            "rounded-2xl border p-4 transition",
+            prev
+              ? "border-surface-ink/10 bg-white/60 hover:border-brand/30 hover:shadow-md dark:border-white/10 dark:bg-surface-ink/40 dark:hover:border-brand/35"
+              : "cursor-not-allowed border-dashed border-surface-ink/15 text-surface-ink/40 dark:border-white/10 dark:text-surface-muted/35"
+          ]}
+          href={prev ? postPermalink(prev) : "#"}
+        >
           {prev ? `上一篇：${prev.data.title}` : "没有上一篇"}
         </a>
-        <a class="rounded border p-3" href={next ? postPermalink(next) : "#"}>
+        <a
+          class:list={[
+            "rounded-2xl border p-4 transition",
+            next
+              ? "border-surface-ink/10 bg-white/60 hover:border-brand/30 hover:shadow-md dark:border-white/10 dark:bg-surface-ink/40 dark:hover:border-brand/35"
+              : "cursor-not-allowed border-dashed border-surface-ink/15 text-surface-ink/40 dark:border-white/10 dark:text-surface-muted/35"
+          ]}
+          href={next ? postPermalink(next) : "#"}
+        >
           {next ? `下一篇：${next.data.title}` : "没有下一篇"}
         </a>
       </nav>
       {relatedPosts.length > 0 && (
-        <section class="mt-6">
-          <h3 class="mb-2 font-semibold">相关推荐</h3>
-          <ul class="space-y-1 text-sm">
+        <section class="mt-8 rounded-2xl border border-surface-ink/10 bg-white/50 p-5 dark:border-white/10 dark:bg-surface-ink/40">
+          <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand dark:text-sky-400">相关推荐</h3>
+          <ul class="space-y-2 text-sm">
             {relatedPosts.map((item) => (
               <li>
-                <a href={postPermalink(item)}>{item.data.title}</a>
+                <a class="font-medium text-surface-ink hover:text-brand dark:text-surface-muted dark:hover:text-sky-400" href={postPermalink(item)}>
+                  {item.data.title}
+                </a>
               </li>
             ))}
           </ul>
@@ -93,11 +122,17 @@ const readingMinutes = Math.max(1, Math.round(estimateReadingTime(post.body ?? "
       <GiscusComments />
     </section>
 
-    <aside class="sticky top-20 hidden h-fit rounded-xl border border-slate-200 p-4 lg:block dark:border-slate-800">
-      <h3 class="mb-2 font-semibold">目录</h3>
-      <ul class="space-y-2 text-sm">
+    <aside
+      class="sticky top-24 hidden h-fit rounded-2xl border border-surface-ink/10 bg-white/70 p-5 shadow-sm backdrop-blur-md lg:block dark:border-white/10 dark:bg-surface-ink/50"
+    >
+      <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-brand dark:text-sky-400">目录</h3>
+      <ul class="space-y-2 text-sm text-surface-ink/85 dark:text-surface-muted/85">
         {headings.map((item: { slug: string; text: string }) => (
-          <li><a href={`#${item.slug}`}>{item.text}</a></li>
+          <li>
+            <a class="hover:text-brand dark:hover:text-sky-400" href={`#${item.slug}`}>
+              {item.text}
+            </a>
+          </li>
         ))}
       </ul>
     </aside>

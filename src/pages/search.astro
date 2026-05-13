@@ -1,19 +1,21 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
 ---
 
 <BaseLayout title="搜索">
-  <section class="space-y-4">
-    <h1 class="text-2xl font-bold">全文搜索</h1>
+  <PageHeader eyebrow="Search" title="全文搜索" description="基于 Pagefind 的静态索引，支持标题、正文与标签匹配。" />
+
+  <div class="mx-auto max-w-2xl space-y-6">
     <input
       data-global-search
       id="search-input"
       type="search"
-      placeholder="输入关键词，搜索标题/正文/标签..."
-      class="w-full rounded border border-slate-300 px-3 py-2 dark:border-slate-700 dark:bg-slate-900"
+      placeholder="输入关键词，搜索标题 / 正文 / 标签…"
+      class="shell-input"
     />
-    <div id="search-result"></div>
-  </section>
+    <div id="search-result" class="min-h-[12rem] rounded-2xl border border-dashed border-surface-ink/15 bg-white/40 p-4 dark:border-white/10 dark:bg-surface-ink/30"></div>
+  </div>
 </BaseLayout>
 
 <script is:inline>
@@ -24,7 +26,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       showImages: false,
       highlightParam: "highlight",
       processTerm: (term) => term.trim(),
-      translations: { placeholder: "搜索博客内容..." }
+      translations: { placeholder: "搜索博客内容…" }
     });
   });
 </script>

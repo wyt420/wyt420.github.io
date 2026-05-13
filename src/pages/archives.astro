@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
 import { getPublishedPosts, toArchiveMap } from "@/lib/content";
 import { postPermalink } from "@/lib/url";
 
@@ -9,29 +10,48 @@ const years = [...archiveMap.keys()].sort((a, b) => Number(b) - Number(a));
 ---
 
 <BaseLayout title="归档">
-  <section class="space-y-6">
-    <h1 class="text-2xl font-bold">归档</h1>
-    <div class="flex flex-wrap gap-2 text-sm">
-      {years.map((year) => (
-        <a class="rounded border px-2 py-1" href={`#year-${year}`}>{year}</a>
-      ))}
-    </div>
-    {years.map((year) => (
-      <section id={`year-${year}`} class="space-y-3">
-        <h2 class="text-xl font-semibold">{year}</h2>
-        {[...(archiveMap.get(year)?.keys() ?? [])].sort((a, b) => Number(b) - Number(a)).map((month) => (
-          <div>
-            <h3 class="mb-2 text-sm font-medium">{month} 月</h3>
-            <ul class="space-y-1 text-sm">
-              {(archiveMap.get(year)?.get(month) ?? []).map((post) => (
-                <li>
-                  <a href={postPermalink(post)}>{post.data.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+  <PageHeader eyebrow="Archives" title="归档" description="按年份与月份浏览全部已发布文章。" />
+
+  <div class="-mx-1 mb-8 flex flex-wrap gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0">
+    {
+      years.map((year) => (
+        <a
+          class="shrink-0 rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium text-surface-ink/85 transition hover:border-brand/35 hover:text-brand dark:border-white/10 dark:bg-surface-ink/50 dark:text-surface-muted/90"
+          href={`#year-${year}`}
+        >
+          {year}
+        </a>
+      ))
+    }
+  </div>
+
+  {
+    years.map((year) => (
+      <section id={`year-${year}`} class="scroll-mt-28 mb-12 space-y-4 last:mb-0">
+        <h2 class="flex items-center gap-3 text-xl font-bold text-surface-ink dark:text-surface-muted">
+          <span class="h-px flex-1 max-w-[3rem] rounded-full bg-gradient-to-r from-brand to-transparent" />
+          {year}
+        </h2>
+        {[...(archiveMap.get(year)?.keys() ?? [])]
+          .sort((a, b) => Number(b) - Number(a))
+          .map((month) => (
+            <div class="rounded-2xl border border-surface-ink/10 bg-white/60 p-5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-surface-ink/45">
+              <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand dark:text-sky-400">{month} 月</h3>
+              <ul class="space-y-2 text-sm">
+                {(archiveMap.get(year)?.get(month) ?? []).map((post) => (
+                  <li class="flex items-baseline gap-2 border-b border-surface-ink/5 pb-2 last:border-0 last:pb-0 dark:border-white/5">
+                    <time class="shrink-0 tabular-nums text-surface-ink/45 dark:text-surface-muted/45" datetime={post.data.pubDate.toISOString()}>
+                      {post.data.pubDate.toLocaleDateString("zh-CN", { month: "numeric", day: "numeric" })}
+                    </time>
+                    <a class="font-medium text-surface-ink hover:text-brand dark:text-surface-muted dark:hover:text-sky-400" href={postPermalink(post)}>
+                      {post.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
       </section>
-    ))}
-  </section>
+    ))
+  }
 </BaseLayout>

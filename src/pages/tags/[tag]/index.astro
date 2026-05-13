@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
+import PageHeader from "@/components/PageHeader.astro";
 import { getPublishedPosts } from "@/lib/content";
 
 export async function getStaticPaths() {
@@ -16,17 +17,34 @@ const pageCount = Math.max(1, Math.ceil(posts.length / 10));
 ---
 
 <BaseLayout title={`标签: ${tag}`}>
-  <section class="space-y-4">
-    <h1 class="text-2xl font-bold">#{tag}</h1>
+  <PageHeader eyebrow="Tag" title={`#${tag}`} description={`共 ${posts.length} 篇文章 · 按发布时间倒序`} />
+
+  <div class="space-y-6">
     {firstPage.map((post) => <PostCard post={post} />)}
-    {pageCount > 1 && (
-      <nav class="flex gap-2">
-        {Array.from({ length: pageCount }).map((_, idx) => (
-          <a class="rounded border px-3 py-1" href={idx === 0 ? `/tags/${tag}/` : `/tags/${tag}/page/${idx + 1}/`}>
-            {idx + 1}
-          </a>
-        ))}
-      </nav>
-    )}
-  </section>
+    {
+      pageCount > 1 && (
+        <nav class="flex flex-wrap justify-center gap-2 pt-2" aria-label="分页">
+          {Array.from({ length: pageCount }).map((_, idx) => {
+            const n = idx + 1;
+            const active = n === 1;
+            const href = n === 1 ? `/tags/${tag}/` : `/tags/${tag}/page/${n}/`;
+            return (
+              <a
+                href={href}
+                class:list={[
+                  "min-w-[2.25rem] rounded-full px-3 py-1.5 text-center text-sm font-medium transition",
+                  active
+                    ? "bg-gradient-to-r from-brand to-sky-500 text-white shadow-md shadow-brand/25"
+                    : "border border-surface-ink/12 bg-white/60 text-surface-ink/80 hover:border-brand/30 hover:text-brand dark:border-white/10 dark:bg-surface-ink/40 dark:text-surface-muted/85 dark:hover:border-brand/40"
+                ]}
+                aria-current={active ? "page" : undefined}
+              >
+                {n}
+              </a>
+            );
+          })}
+        </nav>
+      )
+    }
+  </div>
 </BaseLayout>

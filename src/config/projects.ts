@@ -1,3 +1,7 @@
+/**
+ * 项目作品集页数据源（/projects）。
+ * EAM 三端来自本机目录 E:\w\EAM\EAM-code（api / web / app），代码不对外仓库时勿填 repo。
+ */
 export type ProjectType = "personal" | "company" | "opensource";
 
 export interface ProjectItem {
@@ -14,32 +18,31 @@ export interface ProjectItem {
 
 export const projects: ProjectItem[] = [
   {
-    name: "Astro Resume Blog",
-    slug: "wyt420Blog",
-    description: "集博客、简历、作品集于一体的个人站点模板。",
-    tech: ["Astro", "Vue 3", "Tailwind"],
-    kind: "personal",
-    pinned: true,
-    repo: "https://github.com/your-name/wyt420Blog",
-    demo: "https://example.github.io",
-    image: "/project-blog.svg"
-  },
-  {
-    name: "企业数据中台",
-    slug: "company-data-platform",
-    description: "面向内部运营和数据分析的统一平台。",
-    tech: ["Vue", "Node.js", "PostgreSQL"],
+    name: "EAM · 后端服务（api）",
+    slug: "eam-api",
+    description:
+      "潍柴资产 / 设备相关业务能力后端：基于 ALP 快速开发平台与 Maven 多模块（网关、认证、文件、代码生成、定时任务及各 weichai-* 业务域），统一鉴权、接口聚合与领域服务拆分。",
+    tech: ["Java 8", "Spring Boot 2.6", "Maven", "微服务 / Gateway", "MySQL"],
     kind: "company",
     pinned: true,
-    image: "/project-company.svg"
+    image: "/project-eam-api.svg"
   },
   {
-    name: "Open Source Starter",
-    slug: "open-source-starter",
-    description: "开源工程化模板，提供 lint、test 与发布流程。",
-    tech: ["TypeScript", "Vitest", "GitHub Actions"],
-    kind: "opensource",
-    repo: "https://github.com/your-name/open-source-starter",
-    image: "/project-oss.svg"
+    name: "EAM · 网页端（web）",
+    slug: "eam-web",
+    description:
+      "资产管理系统 Web 端：Yarn workspaces 拆 framework / business，Vue 3 + Vite + Element Plus + Pinia；集成 BPMN 流程、ECharts 可视化、富文本与表格等典型企业后台能力（可选 qiankun 微前端形态）。",
+    tech: ["Vue 3", "Vite", "TypeScript", "Element Plus", "Pinia", "ECharts", "BPMN", "qiankun"],
+    kind: "company",
+    image: "/project-eam-web.svg"
+  },
+  {
+    name: "EAM · 移动端（App）",
+    slug: "eam-app",
+    description:
+      "WeiChaiEamApp：uni-app 跨端工程，支持 App-Plus、H5、各端小程序等构建脚本；Vue 2 + Vuex + uView UI，含扫码、图表、钉钉 JSAPI 等现场运维与移动办公场景。",
+    tech: ["uni-app", "Vue 2", "Vuex", "uView UI", "ECharts", "App-Plus / H5"],
+    kind: "company",
+    image: "/project-eam-app.svg"
   }
 ];

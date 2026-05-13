@@ -7,11 +7,20 @@ interface Props {
   tags: Array<{ tag: string; count: number }>;
   recentPosts: Post[];
   archives: string[];
+  /** 首页右侧玻璃容器内：桌面端去掉自身边框，避免与外层重复 */
+  inHomeShell?: boolean;
 }
-const { tags, recentPosts, archives } = Astro.props;
+const { tags, recentPosts, archives, inHomeShell = false } = Astro.props;
 ---
 
-<aside class="space-y-6 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
+<aside
+  class:list={[
+    "space-y-6 rounded-xl p-4",
+    inHomeShell
+      ? "border border-surface-ink/10 dark:border-white/10 md:border-0 md:bg-transparent md:p-0"
+      : "border border-surface-ink/10 bg-white/50 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-surface-ink/40"
+  ]}
+>
   <section>
     <img src={siteConfig.avatar} alt="avatar" width="64" height="64" class="rounded-full" loading="lazy" />
     <p class="mt-3 text-sm">{siteConfig.description}</p>

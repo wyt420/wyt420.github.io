@@ -1,36 +1,70 @@
 ---
+/**
+ * 文章页 Giscus 评论：依赖 GitHub Discussions。
+ * 在 https://giscus.app/zh-CN 选择仓库与分类后，将 repo-id、category-id 写入 .env（见 .env.example）。
+ * 构建时通过 PUBLIC_* 注入；未配置时仅显示提示，不加载脚本。
+ */
 interface Props {
   mapping?: "pathname" | "url" | "title" | "og:title";
 }
 const { mapping = "pathname" } = Astro.props;
+
+const repo = import.meta.env.PUBLIC_GISCUS_REPO || "wyt420/wyt420.github.io";
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID || "";
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY || "General";
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID || "";
+const ready = Boolean(repoId && categoryId);
 ---
 
-<section class="mt-8">
-  <h3 class="mb-3 text-lg font-semibold">评论</h3>
-  <div id="giscus-container" data-mapping={mapping}></div>
+<section class="mt-10 rounded-2xl border border-surface-ink/10 bg-white/40 p-5 dark:border-white/10 dark:bg-surface-ink/35">
+  <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-brand dark:text-sky-400">评论</h3>
+  {
+    ready ? (
+      <div
+        id="giscus-container"
+        data-mapping={mapping}
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+      />
+    ) : (
+      <p class="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-surface-ink dark:text-surface-muted">
+        评论已开启：请在本机复制 <code class="rounded bg-black/5 px-1 dark:bg-white/10">.env.example</code> 为{" "}
+        <code class="rounded bg-black/5 px-1 dark:bg-white/10">.env</code>，填写{" "}
+        <code class="rounded bg-black/5 px-1 dark:bg-white/10">PUBLIC_GISCUS_REPO_ID</code> 与{" "}
+        <code class="rounded bg-black/5 px-1 dark:bg-white/10">PUBLIC_GISCUS_CATEGORY_ID</code>
+        （在 giscus.app 生成），重新构建后此处将加载评论区。GitHub Actions 请在仓库 Variables 中配置同名变量。
+      </p>
+    )
+  }
 </section>
 
-<script is:inline>
-  const root = document.getElementById("giscus-container");
-  if (root && !root.querySelector("script")) {
-    const script = document.createElement("script");
-    script.src = "https://giscus.app/client.js";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    script.setAttribute("data-repo", "your-name/your-repo");
-    script.setAttribute("data-repo-id", "REPLACE_REPO_ID");
-    script.setAttribute("data-category", "General");
-    script.setAttribute("data-category-id", "REPLACE_CATEGORY_ID");
-    script.setAttribute("data-mapping", root.dataset.mapping ?? "pathname");
-    script.setAttribute("data-strict", "0");
-    script.setAttribute("data-reactions-enabled", "1");
-    script.setAttribute("data-emit-metadata", "0");
-    script.setAttribute("data-input-position", "top");
-    script.setAttribute(
-      "data-theme",
-      document.documentElement.classList.contains("dark") ? "dark_dimmed" : "light"
-    );
-    script.setAttribute("data-lang", "zh-CN");
-    root.appendChild(script);
-  }
-</script>
+{
+  ready && (
+    <script is:inline define:vars={{ mapping, repo, repoId, category, categoryId }}>
+      const root = document.getElementById("giscus-container");
+      if (root && !root.querySelector("script")) {
+        const script = document.createElement("script");
+        script.src = "https://giscus.app/client.js";
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        script.setAttribute("data-repo", repo);
+        script.setAttribute("data-repo-id", repoId);
+        script.setAttribute("data-category", category);
+        script.setAttribute("data-category-id", categoryId);
+        script.setAttribute("data-mapping", root.dataset.mapping ?? mapping);
+        script.setAttribute("data-strict", "0");
+        script.setAttribute("data-reactions-enabled", "1");
+        script.setAttribute("data-emit-metadata", "0");
+        script.setAttribute("data-input-position", "top");
+        script.setAttribute(
+          "data-theme",
+          document.documentElement.classList.contains("dark") ? "dark_dimmed" : "light"
+        );
+        script.setAttribute("data-lang", "zh-CN");
+        root.appendChild(script);
+      }
+    </script>
+  )
+}

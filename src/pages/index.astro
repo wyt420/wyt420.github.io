@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
 import Sidebar from "@/components/Sidebar.astro";
+import HomeHero from "@/components/HomeHero.astro";
 import { getPublishedPosts, toArchiveMap, toTagMap } from "@/lib/content";
 
 const posts = await getPublishedPosts();
@@ -12,19 +13,58 @@ const totalPages = Math.max(1, Math.ceil(posts.length / 10));
 ---
 
 <BaseLayout title="首页">
-  <div class="grid gap-6 md:grid-cols-[1fr_300px]">
-    <section class="space-y-4">
-      {pagePosts.map((post) => <PostCard post={post} />)}
+  <HomeHero postCount={posts.length} tagCount={tags.length} archiveYearCount={archives.length} />
+
+  <div class="grid gap-8 md:grid-cols-[1fr_300px]">
+    <section id="posts" class="scroll-mt-24 space-y-5">
+      <div class="flex flex-col gap-2 border-b border-surface-ink/10 pb-4 dark:border-white/10 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-surface-ink dark:text-surface-muted md:text-xl">最新文章</h2>
+          <p class="mt-1 text-xs text-surface-ink/55 dark:text-surface-muted/55">精选技术笔记与工程记录</p>
+        </div>
+        <a
+          href="/tags"
+          class="shrink-0 text-xs font-medium text-brand transition hover:text-brand-accent dark:text-sky-400 dark:hover:text-violet-300"
+        >
+          按标签浏览 →
+        </a>
+      </div>
+
+      <div class="space-y-4">
+        {pagePosts.map((post) => <PostCard post={post} />)}
+      </div>
+
       {totalPages > 1 && (
-        <nav class="flex justify-center gap-2 text-sm">
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <a class="rounded border px-3 py-1" href={idx === 0 ? "/" : `/page/${idx + 1}/`}>
-              {idx + 1}
-            </a>
-          ))}
+        <nav class="flex flex-wrap items-center justify-center gap-2 pt-2 text-sm" aria-label="分页">
+          {Array.from({ length: totalPages }).map((_, idx) => {
+            const n = idx + 1;
+            const active = n === 1;
+            const href = n === 1 ? "/" : `/page/${n}/`;
+            return (
+              <a
+                href={href}
+                class:list={[
+                  "min-w-[2.25rem] rounded-full px-3 py-1.5 text-center font-medium transition",
+                  active
+                    ? "bg-gradient-to-r from-brand to-sky-500 text-white shadow-md shadow-brand/25"
+                    : "border border-surface-ink/12 bg-white/60 text-surface-ink/80 hover:border-brand/30 hover:text-brand dark:border-white/10 dark:bg-surface-ink/40 dark:text-surface-muted/85 dark:hover:border-brand/40"
+                ]}
+                aria-current={active ? "page" : undefined}
+              >
+                {n}
+              </a>
+            );
+          })}
         </nav>
       )}
     </section>
-    <Sidebar tags={tags} recentPosts={posts} archives={archives} />
+
+    <div
+      class="md:sticky md:top-24 md:h-fit md:rounded-2xl md:border md:border-brand/10 md:bg-gradient-to-b md:from-white/90 md:to-slate-50/90 md:p-1 md:shadow-xl md:shadow-brand/5 md:backdrop-blur-xl dark:md:border-white/10 dark:md:from-surface-ink/90 dark:md:to-slate-900/80 dark:md:shadow-brand/10"
+    >
+      <div class="md:rounded-[0.875rem] md:bg-white/70 md:p-3 dark:md:bg-surface-ink/50">
+        <Sidebar tags={tags} recentPosts={posts} archives={archives} inHomeShell />
+      </div>
+    </div>
   </div>
 </BaseLayout>

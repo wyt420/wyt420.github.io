@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
+import PageHeader from "@/components/PageHeader.astro";
 import Sidebar from "@/components/Sidebar.astro";
 import { getPublishedPosts, toArchiveMap, toTagMap } from "@/lib/content";
 import type { Post } from "@/lib/content";
@@ -42,15 +43,44 @@ const archives = [...toArchiveMap(posts).keys()].sort((a, b) => Number(b) - Numb
 ---
 
 <BaseLayout title={`第 ${currentPage} 页`}>
-  <div class="grid gap-6 md:grid-cols-[1fr_300px]">
+  <PageHeader eyebrow="Blog" title={`第 ${currentPage} 页`} description={`共 ${lastPage} 页文章列表，与首页相同的阅读流。`} />
+
+  <div class="grid gap-8 md:grid-cols-[1fr_300px]">
     <section class="space-y-4">
       {pageData.map((post) => <PostCard post={post} />)}
-      <nav class="flex items-center justify-between text-sm">
-        {prevUrl ? <a class="rounded border px-3 py-1" href={prevUrl}>上一页</a> : <span />}
-        <span>第 {currentPage} / {lastPage} 页</span>
-        {nextUrl ? <a class="rounded border px-3 py-1" href={nextUrl}>下一页</a> : <span />}
+      <nav class="flex flex-wrap items-center justify-center gap-2 border-t border-surface-ink/10 pt-6 text-sm dark:border-white/10" aria-label="分页">
+        {prevUrl ? (
+          <a
+            class="rounded-full border border-surface-ink/12 bg-white/60 px-4 py-2 font-medium text-surface-ink/85 transition hover:border-brand/35 hover:text-brand dark:border-white/10 dark:bg-surface-ink/40 dark:text-surface-muted/90"
+            href={prevUrl}
+          >
+            ← 上一页
+          </a>
+        ) : (
+          <span class="rounded-full px-4 py-2 text-surface-ink/35 dark:text-surface-muted/35">← 上一页</span>
+        )}
+        <span class="rounded-full bg-gradient-to-r from-brand/15 to-brand-accent/15 px-4 py-2 font-semibold text-brand dark:from-brand/25 dark:to-brand-accent/20 dark:text-sky-300">
+          第 {currentPage} / {lastPage} 页
+        </span>
+        {nextUrl ? (
+          <a
+            class="rounded-full border border-surface-ink/12 bg-white/60 px-4 py-2 font-medium text-surface-ink/85 transition hover:border-brand/35 hover:text-brand dark:border-white/10 dark:bg-surface-ink/40 dark:text-surface-muted/90"
+            href={nextUrl}
+          >
+            下一页 →
+          </a>
+        ) : (
+          <span class="rounded-full px-4 py-2 text-surface-ink/35 dark:text-surface-muted/35">下一页 →</span>
+        )}
       </nav>
     </section>
-    <Sidebar tags={tags} recentPosts={posts} archives={archives} />
+
+    <div
+      class="md:sticky md:top-24 md:h-fit md:rounded-2xl md:border md:border-brand/10 md:bg-gradient-to-b md:from-white/90 md:to-slate-50/90 md:p-1 md:shadow-xl md:shadow-brand/5 md:backdrop-blur-xl dark:md:border-white/10 dark:md:from-surface-ink/90 dark:md:to-slate-900/80 dark:md:shadow-brand/10"
+    >
+      <div class="md:rounded-[0.875rem] md:bg-white/70 md:p-3 dark:md:bg-surface-ink/50">
+        <Sidebar tags={tags} recentPosts={posts} archives={archives} inHomeShell />
+      </div>
+    </div>
   </div>
 </BaseLayout>

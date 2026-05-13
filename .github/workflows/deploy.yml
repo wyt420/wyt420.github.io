@@ -30,6 +30,11 @@ jobs:
       - run: pnpm build
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_FETCH_TIMEOUT_MS: ${{ vars.GITHUB_FETCH_TIMEOUT_MS }}
+          PUBLIC_GISCUS_REPO: ${{ vars.PUBLIC_GISCUS_REPO }}
+          PUBLIC_GISCUS_REPO_ID: ${{ vars.PUBLIC_GISCUS_REPO_ID }}
+          PUBLIC_GISCUS_CATEGORY: ${{ vars.PUBLIC_GISCUS_CATEGORY }}
+          PUBLIC_GISCUS_CATEGORY_ID: ${{ vars.PUBLIC_GISCUS_CATEGORY_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist

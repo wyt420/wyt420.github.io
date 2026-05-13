@@ -30,6 +30,11 @@ pnpm dev
 > `pnpm dev / build / check / lint` 已接入自动故障日志：命令失败时会自动追加到 `src/content/build-logs/`。
 > 若你只想执行原始命令（不自动记录），使用 `pnpm dev:raw / build:raw / check:raw / lint:raw`。
 
+### Windows / PowerShell
+
+- **不要用 CMD 写法**：`cd /d E:\path` 与 `cmd1 && cmd2` 在旧版 PowerShell 中容易报错；先进入目录再执行，或写成一行：`Set-Location E:\wyt420Blog; pnpm dev`（PowerShell 7+ 也可用 `cd E:\wyt420Blog; pnpm dev`）。
+- **检查耗时**：`pnpm check:raw` 会依次跑 `astro check`、`tsc`、`eslint` 全仓库，可能较慢。日常只改页面或配置时，可优先 `pnpm exec astro check` 或 `pnpm build:raw` 做快速校验。
+
 ## 构建与预览
 
 ```bash
@@ -107,7 +112,15 @@ cp .env.example .env
 ```
 
 - `PUBLIC_GA_ID`: Google Analytics ID（可选）
-- `GITHUB_API_TOKEN`: GitHub API Token（可选，用于提高项目页 API 限流阈值）
+- `GITHUB_API_TOKEN`: GitHub Token（可选）。本地填入 PAT 可拉高 REST 限流；**关于页**构建时会拉取 Stars、公开仓库数，并在有 Token 时用 GraphQL 拉取**近 12 个月提交贡献**。CI 中 `deploy.yml` 已把 `secrets.GITHUB_TOKEN` 注入为同名变量，线上构建一般无需再配。
+- `GITHUB_FETCH_TIMEOUT_MS`：可选，关于页拉取 GitHub 时**单次请求**超时毫秒数（默认 `15000`）。超时格子显示「**获取数据超时**」而不会用数字顶替。可在仓库 **Actions → Variables** 配置（与 `deploy.yml` 中已引用）。
+- **Giscus 评论（开启后必填两项 ID）**：在 [giscus.app](https://giscus.app/zh-CN) 选择仓库 `wyt420/wyt420.github.io` 与 Discussion 分类，复制生成的 `repo-id`、`category-id` 填入：
+  - `PUBLIC_GISCUS_REPO`（默认 `wyt420/wyt420.github.io`）
+  - `PUBLIC_GISCUS_REPO_ID`
+  - `PUBLIC_GISCUS_CATEGORY`（默认 `General`）
+  - `PUBLIC_GISCUS_CATEGORY_ID`
+
+**GitHub Actions 线上构建**：在仓库 **Settings → Secrets and variables → Actions → Variables** 中添加上述 `PUBLIC_GISCUS_*`（与 `.env` 同名），否则线上构建产物里评论区会显示「待配置」提示。
 
 ## 部署到 GitHub Pages
 
@@ -119,10 +132,10 @@ cp .env.example .env
 - 支持 Pages 环境 URL 回填
 - 支持 `public/CNAME` 自定义域名
 
-> 使用前请把 `astro.config.mjs` 中 `site` 改成你的真实域名（如 `https://<user>.github.io`）。
+> 站点域名已配置为 `https://wyt420.github.io`；若使用自定义域名，请同步修改 `astro.config.mjs` 的 `site` 与 `public/robots.txt`。
 
 ## 后续建议
 
-- 替换示例数据（个人信息、项目列表、社交链接）
-- 在 `GiscusComments` 组件中填入真实 `repo-id/category-id`
+- 将 `src/config/resume.ts`、`src/config/projects.ts` 等配置为真实内容；关于页 GitHub 统计在构建时自动拉取（见 `src/lib/githubStats.ts`，需 `GITHUB_API_TOKEN` 本地 / CI 注入）
+- 配置 Giscus 的 `PUBLIC_GISCUS_REPO_ID` / `PUBLIC_GISCUS_CATEGORY_ID`（本地 `.env` + GitHub Actions Variables）
 - 根据个人品牌补齐 OG 图片与头像素材

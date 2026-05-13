@@ -1,18 +1,19 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
 import ResumePdfButton from "@/components/ResumePdfButton.vue";
 import { resumeData } from "@/config/resume";
 import { siteConfig } from "@/config/site";
 ---
 
 <BaseLayout title="在线简历">
-  <section class="space-y-4">
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold">在线简历</h1>
+  <PageHeader eyebrow="Resume" title="在线简历" description="与站点配置同步，支持一键导出 PDF（浏览器打印质量因环境而异）。">
+    <div slot="actions">
       <ResumePdfButton client:load />
     </div>
+  </PageHeader>
 
-    <article id="resume-content" class="space-y-6 rounded-xl border border-slate-200 p-5 dark:border-slate-800">
+  <article id="resume-content" class="space-y-6 rounded-3xl border border-surface-ink/10 bg-white/75 p-6 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-surface-ink/55 md:p-8">
       <header class="flex items-center gap-4">
         <img src={siteConfig.avatar} alt={resumeData.name} width="80" height="80" class="rounded-full" />
         <div>
@@ -25,45 +26,65 @@ import { siteConfig } from "@/config/site";
         </div>
       </header>
 
+      {resumeData.summaryParagraphs.length > 0 && (
+        <section>
+          <h3 class="mb-2 font-semibold">个人综述</h3>
+          <div class="space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+            {resumeData.summaryParagraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section>
         <h3 class="mb-2 font-semibold">联系方式</h3>
         <ul class="grid gap-2 text-sm md:grid-cols-2">
           {resumeData.contacts.map((item) => (
             <li>
-              {item.type}：<a href={item.href}>{item.label}</a>
+              {item.type}：
+              {item.href ? (
+                <a href={item.href}>{item.label}</a>
+              ) : (
+                <span class="text-slate-500">{item.label}</span>
+              )}
             </li>
           ))}
         </ul>
       </section>
 
       <section>
-        <h3 class="mb-2 font-semibold">技术栈</h3>
-        <div class="space-y-3">
-          {resumeData.skills.map((group) => (
-            <div>
-              <h4 class="text-sm font-medium">{group.category}</h4>
-              <div class="mt-2 grid gap-2 md:grid-cols-2">
-                {group.items.map((skill) => (
-                  <div class="rounded border p-2 text-sm">
-                    <div class="mb-1 flex items-center justify-between">
-                      <span>{skill.name}</span>
-                      <span>{skill.level}%</span>
-                    </div>
-                    <div class="h-2 rounded bg-slate-200 dark:bg-slate-700">
-                      <div class="h-2 rounded bg-sky-500" style={`width: ${skill.level}%`}></div>
-                    </div>
-                  </div>
-                ))}
+        <h3 class="mb-2 font-semibold">教育背景</h3>
+        <ul class="space-y-3 text-sm">
+          {resumeData.education.map((edu) => (
+            <li class="rounded-lg border border-slate-200 p-3 dark:border-slate-700">
+              <div class="font-medium">
+                {edu.school} · {edu.degree}
               </div>
-            </div>
+              <div class="text-slate-500">{edu.period}</div>
+              <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 dark:text-slate-400">
+                <span>GPA：{edu.gpa}</span>
+                <span>排名：{edu.ranking}</span>
+              </div>
+              {edu.coreCourses.length > 0 && (
+                <div class="mt-2">
+                  <div class="text-xs font-medium text-slate-700 dark:text-slate-300">核心课程</div>
+                  <ul class="mt-1 list-disc space-y-0.5 pl-5 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                    {edu.coreCourses.map((c) => (
+                      <li>{c}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section>
-        <h3 class="mb-2 font-semibold">工作经历</h3>
+        <h3 class="mb-2 font-semibold">实习经历</h3>
         <div class="space-y-4">
-          {resumeData.experiences.map((exp) => (
+          {resumeData.internships.map((exp) => (
             <article class="rounded border p-3">
               <h4 class="font-medium">
                 {exp.company} · {exp.role}
@@ -80,36 +101,120 @@ import { siteConfig } from "@/config/site";
       </section>
 
       <section>
-        <h3 class="mb-2 font-semibold">教育背景</h3>
-        <ul class="space-y-2 text-sm">
-          {resumeData.education.map((edu) => (
-            <li>
-              {edu.school} · {edu.degree} · {edu.period} {edu.extras ? `· ${edu.extras}` : ""}
+        <h3 class="mb-2 font-semibold">工作经历</h3>
+        <div class="space-y-4">
+          {resumeData.workExperience.map((exp) => (
+            <article class="rounded border p-3">
+              <h4 class="font-medium">
+                {exp.company} · {exp.role}
+              </h4>
+              <p class="text-sm text-slate-500">{exp.period}</p>
+              <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+                {exp.highlights.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">专业技能</h3>
+        <div class="space-y-4">
+          {resumeData.skills.map((group) => (
+            <div>
+              <h4 class="text-sm font-medium">{group.category}</h4>
+              <p class="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{group.description}</p>
+              <div class="mt-3 grid gap-2 md:grid-cols-2">
+                {group.items.map((skill) => (
+                  <div class="rounded border p-2 text-sm">
+                    <div class="mb-1 flex items-center justify-between">
+                      <span>{skill.name}</span>
+                      <span>{skill.level}%</span>
+                    </div>
+                    <div class="h-2 rounded bg-slate-200 dark:bg-slate-700">
+                      <div
+                        class="h-2 rounded bg-brand"
+                        style={`width: ${Math.min(100, Math.max(0, skill.level))}%`}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">竞赛经历</h3>
+        <ul class="space-y-3 text-sm">
+          {resumeData.competitions.map((c) => (
+            <li class="rounded-lg border border-slate-200 p-3 dark:border-slate-700">
+              <div class="font-medium">{c.name}</div>
+              <div class="text-slate-500">
+                {c.role} · {c.period}
+              </div>
+              <div class="mt-1 text-brand">{c.award}</div>
+              <p class="mt-2 text-slate-600 dark:text-slate-400">{c.summary}</p>
+              {c.highlights && c.highlights.length > 0 && (
+                <ul class="mt-2 list-disc space-y-1 pl-5 text-slate-600 dark:text-slate-400">
+                  {c.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
       </section>
 
-      <section class="grid gap-4 md:grid-cols-2">
-        <div>
-          <h3 class="mb-2 font-semibold">证书/语言</h3>
-          <ul class="list-disc pl-5 text-sm">
-            {resumeData.certificates.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 class="mb-2 font-semibold">开源贡献</h3>
-          <ul class="space-y-1 text-sm">
-            {resumeData.openSource.map((item) => (
-              <li>
-                {item.project}：{item.contribution} {item.link ? <a href={item.link}>链接</a> : ""}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section>
+        <h3 class="mb-2 font-semibold">荣誉奖项</h3>
+        <ul class="list-disc space-y-1 pl-5 text-sm">
+          {resumeData.honors.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">证书与语言</h3>
+        <ul class="list-disc space-y-1 pl-5 text-sm">
+          {resumeData.certificates.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="mb-2 font-semibold">自我评价</h3>
+        <ul class="list-disc space-y-1 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+          {resumeData.selfEvaluation.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        {resumeData.openSource.length > 0 ? (
+          <div>
+            <h3 class="mb-2 font-semibold">开源贡献</h3>
+            <ul class="space-y-1 text-sm">
+              {resumeData.openSource.map((item) => (
+                <li>
+                  {item.project}：{item.contribution}{" "}
+                  {item.link ? <a href={item.link}>链接</a> : ""}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div class="rounded-lg border border-dashed border-slate-300 p-3 text-sm text-slate-500 dark:border-slate-600 dark:text-slate-400">
+            开源贡献：暂无条目，有 PR 记录后在 <code class="text-xs">resume.ts</code> 的 <code class="text-xs">openSource</code> 中补充即可。
+          </div>
+        )}
       </section>
     </article>
-  </section>
 </BaseLayout>
