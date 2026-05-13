@@ -111,6 +111,8 @@ cp .env.example .env
 
 ## 部署到 GitHub Pages
 
+首次在仓库中启用：**Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**（不要选「Deploy from a branch」的 `gh-pages`，本工作流使用官方 Pages 工件部署）。
+
 仓库已提供 `.github/workflows/deploy.yml`：
 
 - 推送到 `main` 自动构建并部署到 GitHub Pages
