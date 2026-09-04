@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071525"/>
+      <stop offset="50%" stop-color="#0C2544"/>
+      <stop offset="100%" stop-color="#071525"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22D3EE"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <rect x="40" y="40" width="720" height="48" rx="6" fill="#142A45" stroke="#1E4A6B"/>
+  <rect x="40" y="108" width="200" height="272" rx="6" fill="#0E2038" stroke="#1E4A6B" opacity="0.85"/>
+  <rect x="260" y="108" width="500" height="120" rx="6" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="260" y="244" width="150" height="64" rx="6" fill="#E0F2FE" stroke="#93C5FD"/>
+  <rect x="424" y="244" width="150" height="64" rx="6" fill="#E0F2FE" stroke="#93C5FD"/>
+  <rect x="588" y="244" width="172" height="64" rx="6" fill="#E0F2FE" stroke="#93C5FD"/>
+  <rect x="40" y="396" width="720" height="4" rx="2" fill="url(#accent)"/>
+  <text x="400" y="78" text-anchor="middle" fill="#67E8F9" font-size="18" font-family="Segoe UI, Arial, sans-serif">MES Workbench Shell</text>
+  <text x="400" y="210" text-anchor="middle" fill="#1F2937" font-size="22" font-weight="600" font-family="Segoe UI, Arial, sans-serif">z gL�\�</text>
+  <text x="400" y="380" text-anchor="middle" fill="#94A3B8" font-size="14" font-family="Segoe UI, Arial, sans-serif">WPF � Prism � Tree / Tile Navigation</text>
+</svg>

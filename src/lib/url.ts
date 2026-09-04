@@ -6,3 +6,7 @@ export function postPermalink(post: CollectionEntry<"posts">) {
   const slug = post.id.split("/").pop() ?? post.id;
   return `/posts/${year}/${month}/${slug}/`;
 }
+
+export function projectPermalink(slug: string) {
+  return `/projects/${slug}/`;
+}

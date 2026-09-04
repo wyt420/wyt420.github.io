@@ -15,6 +15,11 @@ interface Project {
 
 const props = defineProps<{ projects: Project[]; githubToken?: string }>();
 
+function projectDetailUrl(slug: string) {
+  const base = import.meta.env.BASE_URL ?? "/";
+  return `${base}projects/${slug}/`.replace(/\/{2,}/g, "/");
+}
+
 /** 与 Astro base 一致，避免子路径部署时 /public 资源 404 */
 function publicAssetUrl(src: string) {
   if (src.startsWith("http://") || src.startsWith("https://")) return src;
@@ -131,23 +136,57 @@ const loadStats = async (project: Project) => {
       <article
         v-for="project in ordered"
         :key="project.slug"
-        class="space-y-3 overflow-hidden rounded-2xl border border-surface-ink/10 bg-white/75 p-4 shadow-sm backdrop-blur-sm transition hover:border-brand/25 hover:shadow-lg hover:shadow-brand/5 dark:border-white/10 dark:bg-surface-ink/50 dark:hover:border-brand/30"
+        class="group relative cursor-pointer space-y-3 overflow-hidden rounded-2xl border border-surface-ink/10 bg-white/75 p-4 shadow-sm backdrop-blur-sm transition hover:border-brand/25 hover:shadow-lg hover:shadow-brand/5 dark:border-white/10 dark:bg-surface-ink/50 dark:hover:border-brand/30"
       >
-        <img :src="publicAssetUrl(project.image)" :alt="project.name" loading="lazy" class="h-40 w-full rounded object-cover" />
-        <div class="flex items-center gap-2">
-          <h3 class="font-semibold">{{ project.name }}</h3>
+        <a
+          :href="projectDetailUrl(project.slug)"
+          class="absolute inset-0 z-0 rounded-2xl"
+          :aria-label="`查看项目详情：${project.name}`"
+        />
+        <img
+          :src="publicAssetUrl(project.image)"
+          :alt="project.name"
+          loading="lazy"
+          class="pointer-events-none relative z-[1] h-40 w-full rounded object-cover"
+        />
+        <div class="pointer-events-none relative z-[1] flex items-center gap-2">
+          <h3 class="font-semibold transition group-hover:text-brand dark:group-hover:text-sky-400">{{ project.name }}</h3>
           <span v-if="project.pinned" class="rounded bg-rose-500 px-2 py-0.5 text-xs text-white">置顶</span>
         </div>
-        <p class="text-sm text-slate-600 dark:text-slate-300">{{ project.description }}</p>
-        <div class="flex flex-wrap gap-2 text-xs">
+        <p class="pointer-events-none relative z-[1] line-clamp-3 text-sm text-slate-600 dark:text-slate-300">
+          {{ project.description }}
+        </p>
+        <div class="pointer-events-none relative z-[1] flex flex-wrap gap-2 text-xs">
           <span v-for="tech in project.tech" :key="tech" class="rounded bg-slate-100 px-2 py-1 dark:bg-slate-900">
             {{ tech }}
           </span>
         </div>
-        <div class="flex flex-wrap gap-2 text-xs">
-          <a v-if="project.repo" :href="project.repo" target="_blank" @mouseenter="loadStats(project)">GitHub</a>
-          <a v-if="project.demo" :href="project.demo" target="_blank">Demo</a>
-          <span v-if="stats[project.slug]">⭐ {{ stats[project.slug].stars }} / Fork {{ stats[project.slug].forks }}</span>
+        <div class="pointer-events-none relative z-[1] flex flex-wrap items-center gap-3 text-xs">
+          <span class="font-medium text-brand dark:text-sky-400">查看详情 →</span>
+          <a
+            v-if="project.repo"
+            :href="project.repo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pointer-events-auto relative z-[2] text-slate-600 underline-offset-2 hover:text-brand hover:underline dark:text-slate-300"
+            @mouseenter="loadStats(project)"
+            @click.stop
+          >
+            GitHub
+          </a>
+          <a
+            v-if="project.demo"
+            :href="project.demo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pointer-events-auto relative z-[2] text-slate-600 underline-offset-2 hover:text-brand hover:underline dark:text-slate-300"
+            @click.stop
+          >
+            Demo
+          </a>
+          <span v-if="stats[project.slug]" class="pointer-events-none text-slate-500 dark:text-slate-400">
+            ⭐ {{ stats[project.slug].stars }} / Fork {{ stats[project.slug].forks }}
+          </span>
         </div>
       </article>
     </div>
