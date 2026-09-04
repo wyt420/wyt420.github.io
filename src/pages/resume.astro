@@ -200,7 +200,7 @@ import { siteConfig } from "@/config/site";
       <section>
         {resumeData.openSource.length > 0 ? (
           <div>
-            <h3 class="mb-2 font-semibold">开源贡献</h3>
+            <h3 class="mb-2 font-semibold">AI 与个人项目</h3>
             <ul class="space-y-1 text-sm">
               {resumeData.openSource.map((item) => (
                 <li>
@@ -212,7 +212,7 @@ import { siteConfig } from "@/config/site";
           </div>
         ) : (
           <div class="rounded-lg border border-dashed border-slate-300 p-3 text-sm text-slate-500 dark:border-slate-600 dark:text-slate-400">
-            开源贡献：暂无条目，有 PR 记录后在 <code class="text-xs">resume.ts</code> 的 <code class="text-xs">openSource</code> 中补充即可。
+            AI 与个人项目：暂无条目，可在 <code class="text-xs">resume.ts</code> 的 <code class="text-xs">openSource</code> 中补充。
           </div>
         )}
       </section>

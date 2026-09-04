@@ -70,13 +70,14 @@ export interface ResumeData {
 
 export const resumeData: ResumeData = {
   name: "王雨婷",
-  title: "信息化工程师",
+  title: "AI 应用工程师 / 企业数字化工程师",
   intro:
-    "东北大学信息管理与信息系统本科；现从事制造企业信息化与 MES/ERP 相关工作，具备数据分析、全栈协作与项目实施经验。",
+    "东北大学信息管理与信息系统本科；具备制造业 MES/EAM 项目经验，专注于 LLM 应用集成、AI 辅助开发与企业业务数字化落地。",
   summaryParagraphs: [
-    "熟悉 MES、ERP 系统运维与项目建设流程，能独立完成需求沟通、部署验证与异常闭环。",
-    "具备 Python 数据分析与 SQL 报表开发能力；熟悉 Vue3 + SpringCloud 前后端分离架构下的联调与缺陷修复。",
-    "善用 AI 辅助编程（Cursor、Copilot 等）与提示词工程，提升文档、脚本与原型迭代效率（vibe coding）。"
+    "拥有制造企业 MES、EAM 项目建设与运维经验，能从业务需求出发完成方案拆解、前后端开发协作、部署验证与问题闭环。",
+    "具备 AI 应用集成实践：使用 Python、FastAPI、LiteLLM 对接 DeepSeek 等 OpenAI 兼容模型，结合搜索 API、Agent 与消息推送搭建智能分析工作流。",
+    "熟悉 Vue 3、Java / Spring Boot、SQL 与 uni-app，可将大模型能力接入既有企业系统；善用 Codex、Cursor、Copilot 进行需求分析、编码、测试和技术文档沉淀。",
+    "求职方向：AI 应用工程师、企业 AI 解决方案工程师、智能制造数字化开发等偏业务落地岗位。"
   ],
   location: "中国 · 山东",
   yearsOfExperience: "全职 1 年+（2024.07 至今）",
@@ -88,11 +89,23 @@ export const resumeData: ResumeData = {
 
   skills: [
     {
+      category: "AI 应用开发与工程化",
+      description:
+        "具备大模型 API 集成和 AI 工作流实践：使用 OpenAI 兼容接口接入 DeepSeek，基于 LiteLLM 管理模型调用，结合 Tavily 搜索、Agent 多轮执行与钉钉 Webhook 完成“数据获取—信息检索—模型分析—结果推送”闭环；了解提示词拆解、上下文组织、异常兜底、调用成本与密钥安全。",
+      items: [
+        { name: "LLM API / DeepSeek / LiteLLM", level: 80 },
+        { name: "Prompt Engineering", level: 84 },
+        { name: "Agent 与工具调用工作流", level: 76 },
+        { name: "AI 辅助开发（Codex / Cursor / Copilot）", level: 88 }
+      ]
+    },
+    {
       category: "数据分析与建模",
       description:
-        "熟练运用 Python（Pandas、NumPy）进行数据处理与建模分析；掌握 SPSS 统计分析；熟练使用 Excel 高级函数完成业务侧数据处理与报表支撑。",
+        "熟练运用 Python（Pandas、NumPy）进行数据处理与建模分析，具备 FastAPI 服务部署实践；掌握 SPSS 统计分析，能使用 Excel 与 SQL 完成业务数据处理和报表支撑。",
       items: [
         { name: "Python（Pandas / NumPy）", level: 86 },
+        { name: "FastAPI / Python 服务部署", level: 76 },
         { name: "SPSS 统计分析", level: 80 },
         { name: "Excel 高级函数与数据透视", level: 82 }
       ]
@@ -100,21 +113,21 @@ export const resumeData: ResumeData = {
     {
       category: "数据库与后端",
       description:
-        "熟练掌握 SQL，能编写复杂业务报表；熟悉 MySQL；了解 Java 与 SpringBoot 技术栈；具备 MES/ERP 与业务系统集成、联调与问题定位经验。",
+        "熟练掌握 SQL，能编写复杂业务报表并定位数据口径问题；熟悉 MySQL、MyBatis、Java 与 Spring Boot，具备接口联调、动态查询、空值安全和企业流程问题定位经验。",
       items: [
         { name: "SQL 与复杂报表", level: 90 },
         { name: "MySQL", level: 78 },
-        { name: "Java / SpringBoot", level: 72 },
-        { name: "MES / ERP 系统集成", level: 80 }
+        { name: "Java / Spring Boot / MyBatis", level: 74 },
+        { name: "MES / EAM / ERP 系统集成", level: 84 }
       ]
     },
     {
       category: "前端与全栈",
       description:
-        "掌握 Vue3 与 Element-UI；熟悉 uniapp 跨端开发；理解前后端分离架构，能在该架构下独立完成缺陷修复与功能开发协作。",
+        "掌握 Vue 3、TypeScript、Pinia 与企业后台开发，熟悉 Vue Router 动态路由、Element Plus、uni-app 跨端开发；能独立完成复杂表单、权限、异步状态和前后端联调问题。",
       items: [
-        { name: "Vue3 + Element-UI", level: 84 },
-        { name: "uniapp", level: 74 },
+        { name: "Vue 3 / TypeScript / Pinia", level: 85 },
+        { name: "uni-app", level: 76 },
         { name: "前后端分离协作与联调", level: 80 }
       ]
     },
@@ -127,13 +140,13 @@ export const resumeData: ResumeData = {
       ]
     },
     {
-      category: "Vibe Coding & AI 辅助开发",
+      category: "工程化与项目交付",
       description:
-        "熟练使用 Cursor、GitHub Copilot 等 AI 编程工具；能将业务需求拆解为可执行的提示词与任务列表，加速文档撰写、SQL/脚本初稿与界面原型迭代；在规范与评审前提下保持代码可追溯、可维护。",
+        "具备 Git、Vite、Maven、Windows 本地部署及前后端联调经验；能够将需求整理为可验证任务，使用 AI 编程工具辅助实现，并通过代码审查、构建验证和技术复盘保证结果可追溯。",
       items: [
-        { name: "Cursor / Copilot 工作流", level: 86 },
-        { name: "提示词工程（需求 → Spec → 实现）", level: 82 },
-        { name: "快速原型与脚手架迭代", level: 78 }
+        { name: "Git / Vite / Maven", level: 80 },
+        { name: "需求拆解与技术文档", level: 86 },
+        { name: "部署验证与问题排查", level: 84 }
       ]
     }
   ],
@@ -144,10 +157,12 @@ export const resumeData: ResumeData = {
       period: "2024.07 – 至今",
       role: "信息化工程师",
       highlights: [
-        "系统运维：负责 MES、ERP 相关模块的日常运维，处理异常需求与问题闭环，维护系统运行说明与操作记录。",
-        "项目实施：参与 MES、EAM 等系统建设，承担需求调研、部署上线、功能验证及与业务、开发的多方沟通。",
-        "开发与数据分析：在 Vue3 + SpringCloud 架构下参与前端缺陷修复；编写 SQL，支撑库存、生产等多维度动态报表。",
-        "项目协调：组织周例会，跟踪进度，协调跨系统接口与联调事项，推动问题落实。"
+        "MES Web：主导智造云首页工作台与树形/平铺双模式菜单重构，从 Vue Router 权限路由动态生成应用中心，使用 Pinia 按用户持久化布局与收藏，避免维护第二份菜单配置。",
+        "MES 桌面端：参与 WPF + Prism Shell 重构，通过 NavigateMenuCatalog 聚合 Region 菜单，新增工作台和 Tree/Tile 导航；复用原 MenuItem 链路，实现业务模块低侵入升级。",
+        "EAM 多端开发：参与物资、维修、设备台账与移动检修功能迭代，修复级联分类异步回显、盘点重复提交、多保管员权限、流程动作校验和移动端工时计算等问题。",
+        "EAM 后端与数据：使用 Java、Spring Boot、MyBatis 与 SQL 完成台账模糊查询、预算统计口径和空值安全修复，覆盖前端交互、接口规则与数据查询链路。",
+        "AI 辅助研发：将 Codex、Cursor、Copilot 应用于需求拆解、代码定位、测试验证和技术文档整理，沉淀 MES/EAM 功能复盘文章，使问题、根因和解决方案可复用。",
+        "项目交付：负责 MES、ERP 相关系统运维与异常闭环，参与需求调研、部署上线、功能验证、跨系统接口联调及周例会进度协调。"
       ]
     }
   ],
@@ -223,10 +238,23 @@ export const resumeData: ResumeData = {
   certificates: ["大学英语六级（CET-6）", "全国计算机等级考试二级"],
 
   selfEvaluation: [
-    "具备扎实的数理与信息系统专业基础，善于将业务问题抽象为数据与流程问题。",
-    "在竞赛与实习中积累了 Python 数据挖掘、统计建模与需求文档撰写经验，能在项目中承担沟通、文档与联调职责。",
-    "工作态度踏实，学习意愿强，希望在信息化与智能制造领域持续深耕，为企业数字化落地贡献稳定产出。"
+    "兼具制造业业务理解与软件开发能力，善于把复杂流程拆解为数据、状态、权限和接口问题。",
+    "关注 AI 的实际应用价值，具备从模型 API、外部搜索到结果推送的工作流集成经验，能够评估错误兜底、调用成本和数据安全。",
+    "持续使用 AI 工具提升研发效率，同时坚持核对源码、验证构建并记录问题根因；希望在 AI 应用与企业数字化结合方向持续深耕。"
   ],
 
-  openSource: []
+  openSource: [
+    {
+      project: "A 股智能分析与问股 Agent",
+      contribution:
+        "在 Windows 本地部署 Python + FastAPI Web 工作台，对接 DeepSeek OpenAI 兼容接口与 LiteLLM，集成 Tavily 新闻检索、Agent 问股和钉钉 Webhook 推送，并梳理模型调用成本及异常兜底。",
+      link: "/projects/daily-stock-analysis/"
+    },
+    {
+      project: "个人技术博客与 AI 辅助知识沉淀",
+      contribution:
+        "基于 Astro、Vue 3 与 TypeScript 搭建个人博客，将 MES/EAM 开发内容按功能拆分为背景、问题、根因、方案和验证文章，形成可检索的项目经验库。",
+      link: "/"
+    }
+  ]
 };
