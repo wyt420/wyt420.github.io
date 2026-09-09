@@ -8,9 +8,11 @@ const heading = "mb-3 border-b-2 border-slate-900 pb-1.5 text-base font-bold tra
 ---
 
 <BaseLayout title="在线简历">
-  <PageHeader eyebrow="Resume" title="在线简历" description="AI 应用开发 / 企业数字化方向">
-    <div slot="actions"><ResumePdfButton client:load /></div>
-  </PageHeader>
+  <div class="resume-screen-only">
+    <PageHeader eyebrow="Resume" title="在线简历" description="AI 应用开发 / 企业数字化方向">
+      <div slot="actions"><ResumePdfButton client:load /></div>
+    </PageHeader>
+  </div>
 
   <article id="resume-content" class="mx-auto max-w-[900px] border border-slate-200 bg-white px-7 py-8 text-slate-800 shadow-sm dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 md:px-12 md:py-10">
     <header class="border-b border-slate-300 pb-5 dark:border-slate-700">
@@ -114,3 +116,48 @@ const heading = "mb-3 border-b-2 border-slate-900 pb-1.5 text-base font-bold tra
     </div>
   </article>
 </BaseLayout>
+
+<style is:global>
+  @media print {
+    @page {
+      size: A4;
+      margin: 10mm 12mm;
+    }
+
+    html,
+    body {
+      color-scheme: light;
+      background: #fff !important;
+      font-size: 12px;
+    }
+
+    body::before,
+    body > header,
+    body > nav,
+    .resume-screen-only {
+      display: none !important;
+    }
+
+    body > main {
+      max-width: none !important;
+      padding: 0 !important;
+    }
+
+    #resume-content {
+      max-width: none !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      color: #1e293b !important;
+    }
+
+    #resume-content section,
+    #resume-content li {
+      break-inside: avoid;
+    }
+
+    #resume-content a {
+      color: inherit !important;
+      text-decoration: none !important;
+    }
+  }
+</style>
