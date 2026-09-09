@@ -74,13 +74,12 @@ export const resumeData: ResumeData = {
   intro:
     "东北大学信息管理与信息系统本科；具备制造业 MES/EAM 项目经验，专注于 LLM 应用集成、AI 辅助开发与企业业务数字化落地。",
   summaryParagraphs: [
-    "拥有制造企业 MES、EAM 项目建设与运维经验，能从业务需求出发完成方案拆解、前后端开发协作、部署验证与问题闭环。",
-    "具备 AI 应用集成实践：使用 Python、FastAPI、LiteLLM 对接 DeepSeek 等 OpenAI 兼容模型，结合搜索 API、Agent 与消息推送搭建智能分析工作流。",
-    "熟悉 Vue 3、Java / Spring Boot、SQL 与 uni-app，可将大模型能力接入既有企业系统；善用 Codex、Cursor、Copilot 进行需求分析、编码、测试和技术文档沉淀。",
-    "求职方向：AI 应用工程师、企业 AI 解决方案工程师、智能制造数字化开发等偏业务落地岗位。"
+    "AI 应用实践：使用 Python、FastAPI、LiteLLM 对接 DeepSeek 等 OpenAI 兼容模型，结合 Tavily 搜索、Agent 与消息推送搭建完整分析工作流。",
+    "企业项目经验：参与制造业 MES、EAM、ERP 系统建设与运维，可独立完成需求分析、功能开发、接口联调、部署验证和问题闭环。",
+    "复合技术能力：覆盖 Vue 3 前端、Java / Spring Boot 后端、SQL 数据处理及 uni-app 移动端，能够把 AI 能力与真实业务系统结合。"
   ],
   location: "中国 · 山东",
-  yearsOfExperience: "全职 1 年+（2024.07 至今）",
+  yearsOfExperience: "全职 2 年+（2024.07 至今）",
   contacts: [
     { type: "手机", label: "15344261033", href: "tel:15344261033" },
     { type: "邮箱", label: "984102889@qq.com", href: "mailto:984102889@qq.com" },
@@ -91,62 +90,45 @@ export const resumeData: ResumeData = {
     {
       category: "AI 应用开发与工程化",
       description:
-        "具备大模型 API 集成和 AI 工作流实践：使用 OpenAI 兼容接口接入 DeepSeek，基于 LiteLLM 管理模型调用，结合 Tavily 搜索、Agent 多轮执行与钉钉 Webhook 完成“数据获取—信息检索—模型分析—结果推送”闭环；了解提示词拆解、上下文组织、异常兜底、调用成本与密钥安全。",
+        "大模型 API 集成、提示词设计与 AI 工作流落地；能使用 LiteLLM 统一模型调用，结合搜索、Agent 和 Webhook 构建端到端应用；关注上下文组织、异常兜底、调用成本与密钥安全。",
       items: [
-        { name: "LLM API / DeepSeek / LiteLLM", level: 80 },
-        { name: "Prompt Engineering", level: 84 },
-        { name: "Agent 与工具调用工作流", level: 76 },
-        { name: "AI 辅助开发（Codex / Cursor / Copilot）", level: 88 }
+        { name: "DeepSeek / OpenAI 兼容 API", level: 80 },
+        { name: "LiteLLM / Prompt Engineering", level: 84 },
+        { name: "Agent / 搜索增强 / Webhook", level: 76 },
+        { name: "Codex / Cursor / Copilot", level: 88 }
       ]
     },
     {
-      category: "数据分析与建模",
+      category: "应用开发",
       description:
-        "熟练运用 Python（Pandas、NumPy）进行数据处理与建模分析，具备 FastAPI 服务部署实践；掌握 SPSS 统计分析，能使用 Excel 与 SQL 完成业务数据处理和报表支撑。",
+        "具备前后端与跨端协作能力，能够开发企业后台、动态路由、复杂表单、权限与流程功能，并完成接口联调和本地部署。",
       items: [
-        { name: "Python（Pandas / NumPy）", level: 86 },
-        { name: "FastAPI / Python 服务部署", level: 76 },
-        { name: "SPSS 统计分析", level: 80 },
-        { name: "Excel 高级函数与数据透视", level: 82 }
-      ]
-    },
-    {
-      category: "数据库与后端",
-      description:
-        "熟练掌握 SQL，能编写复杂业务报表并定位数据口径问题；熟悉 MySQL、MyBatis、Java 与 Spring Boot，具备接口联调、动态查询、空值安全和企业流程问题定位经验。",
-      items: [
-        { name: "SQL 与复杂报表", level: 90 },
-        { name: "MySQL", level: 78 },
-        { name: "Java / Spring Boot / MyBatis", level: 74 },
-        { name: "MES / EAM / ERP 系统集成", level: 84 }
-      ]
-    },
-    {
-      category: "前端与全栈",
-      description:
-        "掌握 Vue 3、TypeScript、Pinia 与企业后台开发，熟悉 Vue Router 动态路由、Element Plus、uni-app 跨端开发；能独立完成复杂表单、权限、异步状态和前后端联调问题。",
-      items: [
+        { name: "Python / FastAPI", level: 82 },
         { name: "Vue 3 / TypeScript / Pinia", level: 85 },
-        { name: "uni-app", level: 76 },
-        { name: "前后端分离协作与联调", level: 80 }
+        { name: "Java / Spring Boot / MyBatis", level: 74 },
+        { name: "uni-app / Vue 2", level: 76 }
       ]
     },
     {
-      category: "语言与资格",
-      description: "大学英语六级（CET-6）；全国计算机等级考试二级。",
-      items: [
-        { name: "英语（CET-6）", level: 78 },
-        { name: "计算机等级（二级）", level: 75 }
-      ]
-    },
-    {
-      category: "工程化与项目交付",
+      category: "数据分析与数据库",
       description:
-        "具备 Git、Vite、Maven、Windows 本地部署及前后端联调经验；能够将需求整理为可验证任务，使用 AI 编程工具辅助实现，并通过代码审查、构建验证和技术复盘保证结果可追溯。",
+        "能够使用 SQL 和 Python 完成业务数据处理、查询优化与报表分析，具备统计建模和数据口径问题定位经验。",
       items: [
+        { name: "SQL / MySQL", level: 88 },
+        { name: "Pandas / NumPy", level: 86 },
+        { name: "Excel / SPSS", level: 82 },
+        { name: "业务报表 / 数据口径", level: 84 }
+      ]
+    },
+    {
+      category: "工程化与业务交付",
+      description:
+        "熟悉制造业 MES、EAM、ERP 场景，具备需求调研、Git 协作、构建部署、功能验证和跨系统联调经验，能够沉淀规范、排障记录与技术复盘。",
+      items: [
+        { name: "MES / EAM / ERP", level: 86 },
         { name: "Git / Vite / Maven", level: 80 },
-        { name: "需求拆解与技术文档", level: 86 },
-        { name: "部署验证与问题排查", level: 84 }
+        { name: "需求分析 / 接口联调", level: 84 },
+        { name: "部署验证 / 问题排查", level: 84 }
       ]
     }
   ],
@@ -251,10 +233,16 @@ export const resumeData: ResumeData = {
       link: "/projects/daily-stock-analysis/"
     },
     {
-      project: "个人技术博客与 AI 辅助知识沉淀",
+      project: "MES 智造云 Web 工作台与应用中心",
       contribution:
-        "基于 Astro、Vue 3 与 TypeScript 搭建个人博客，将 MES/EAM 开发内容按功能拆分为背景、问题、根因、方案和验证文章，形成可检索的项目经验库。",
-      link: "/"
+        "基于 Vue 3、TypeScript、Pinia 和 Vue Router 重构首页工作台与双模式导航，从权限路由动态生成应用中心，支持菜单搜索、收藏、布局持久化和旧配置迁移。",
+      link: "/projects/mes-cloud-web/"
+    },
+    {
+      project: "EAM 资产管理系统多端迭代",
+      contribution:
+        "参与 Vue Web、Spring Boot API 与 uni-app 移动端开发，覆盖物资盘点、外委维修、设备台账和计划检修；解决异步回显、重复提交、权限集合、预算口径及移动端工时计算问题。",
+      link: "/projects/eam-web/"
     }
   ]
 };
