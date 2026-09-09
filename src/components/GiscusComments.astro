@@ -11,7 +11,7 @@ const { mapping = "pathname" } = Astro.props;
 
 const repo = import.meta.env.PUBLIC_GISCUS_REPO || "wyt420/wyt420.github.io";
 const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID || "";
-const category = import.meta.env.PUBLIC_GISCUS_CATEGORY || "General";
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY || "Announcements";
 const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID || "";
 const ready = Boolean(repoId && categoryId);
 ---

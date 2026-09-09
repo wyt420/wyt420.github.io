@@ -117,7 +117,7 @@ cp .env.example .env
 - **Giscus 评论（开启后必填两项 ID）**：在 [giscus.app](https://giscus.app/zh-CN) 选择仓库 `wyt420/wyt420.github.io` 与 Discussion 分类，复制生成的 `repo-id`、`category-id` 填入：
   - `PUBLIC_GISCUS_REPO`（默认 `wyt420/wyt420.github.io`）
   - `PUBLIC_GISCUS_REPO_ID`
-  - `PUBLIC_GISCUS_CATEGORY`（默认 `General`）
+  - `PUBLIC_GISCUS_CATEGORY`（默认 `Announcements`）
   - `PUBLIC_GISCUS_CATEGORY_ID`
 
 **GitHub Actions 线上构建**：在仓库 **Settings → Secrets and variables → Actions → Variables** 中添加上述 `PUBLIC_GISCUS_*`（与 `.env` 同名），否则线上构建产物里评论区会显示「待配置」提示。
