@@ -20,7 +20,7 @@ function isActive(href: string) {
 
 <template>
   <nav
-    class="fixed bottom-0 left-0 right-0 z-40 border-t border-surface-ink/10 bg-white/85 text-center text-xs shadow-[0_-8px_30px_rgba(22,93,255,0.08)] backdrop-blur-xl md:hidden dark:border-white/10 dark:bg-slate-950/90 dark:shadow-[0_-8px_30px_rgba(0,0,0,0.35)]"
+    class="site-mobile-nav fixed bottom-0 left-0 right-0 z-40 border-t border-surface-ink/10 bg-white/85 text-center text-xs shadow-[0_-8px_30px_rgba(22,93,255,0.08)] backdrop-blur-xl md:hidden dark:border-white/10 dark:bg-slate-950/90 dark:shadow-[0_-8px_30px_rgba(0,0,0,0.35)]"
     aria-label="主导航"
   >
     <div class="mx-auto grid max-w-lg grid-cols-4">

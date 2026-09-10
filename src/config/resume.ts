@@ -65,7 +65,12 @@ export interface ResumeData {
   /** 自我评价（多段/多条） */
   selfEvaluation: string[];
 
-  openSource: Array<{ project: string; contribution: string; link?: string }>;
+  openSource: Array<{
+    project: string;
+    stack: string;
+    highlights: string[];
+    link?: string;
+  }>;
 }
 
 export const resumeData: ResumeData = {
@@ -83,7 +88,7 @@ export const resumeData: ResumeData = {
   contacts: [
     { type: "手机", label: "15344261033", href: "tel:15344261033" },
     { type: "邮箱", label: "984102889@qq.com", href: "mailto:984102889@qq.com" },
-    { type: "GitHub", label: "wyt420", href: "https://github.com/wyt420" }
+    { type: "博客", label: "wyt420.github.io", href: "https://wyt420.github.io" }
   ],
 
   skills: [
@@ -228,20 +233,51 @@ export const resumeData: ResumeData = {
   openSource: [
     {
       project: "A 股智能分析与问股 Agent",
-      contribution:
-        "在 Windows 本地部署 Python + FastAPI Web 工作台，对接 DeepSeek OpenAI 兼容接口与 LiteLLM，集成 Tavily 新闻检索、Agent 问股和钉钉 Webhook 推送，并梳理模型调用成本及异常兜底。",
+      stack: "Python / FastAPI / LiteLLM / DeepSeek / Tavily / Agent / Webhook",
+      highlights: [
+        "在 Windows 环境完成开源项目本地化部署与 Web 工作台配置，通过 LiteLLM 接入 DeepSeek OpenAI 兼容接口，统一模型参数、密钥及调用入口。",
+        "集成 Tavily 新闻检索与股票数据分析链路，为 Agent 补充实时信息；完成问股交互和钉钉机器人 Webhook 推送，形成“数据获取—模型分析—结果通知”的端到端流程。",
+        "定位 Python 环境、接口鉴权、模型返回异常及消息推送失败等问题，补充错误兜底与日志排查方案，并整理 API 用量、调用成本和敏感配置管理方法。"
+      ],
       link: "/projects/daily-stock-analysis/"
     },
     {
       project: "MES 智造云 Web 工作台与应用中心",
-      contribution:
-        "基于 Vue 3、TypeScript、Pinia 和 Vue Router 重构首页工作台与双模式导航，从权限路由动态生成应用中心，支持菜单搜索、收藏、布局持久化和旧配置迁移。",
+      stack: "Vue 3 / TypeScript / Pinia / Vue Router / Vite",
+      highlights: [
+        "负责 MES Web 首页工作台和应用中心重构，将多层级业务菜单转换为树形/平铺双模式入口，支持菜单搜索、常用应用收藏和快捷访问。",
+        "基于 Vue Router 动态权限路由生成应用数据，统一菜单权限、标题、图标与跳转路径，避免工作台单独维护配置造成权限不一致和新增模块遗漏。",
+        "使用 Pinia 按用户持久化模块显隐、排列顺序与导航偏好，并设计默认配置合并及旧数据迁移逻辑，保证版本升级后新增模块可见、历史偏好可继续使用。"
+      ],
       link: "/projects/mes-cloud-web/"
     },
     {
-      project: "EAM 资产管理系统多端迭代",
-      contribution:
-        "参与 Vue Web、Spring Boot API 与 uni-app 移动端开发，覆盖物资盘点、外委维修、设备台账和计划检修；解决异步回显、重复提交、权限集合、预算口径及移动端工时计算问题。",
+      project: "MES 积木报表集成与低代码报表平台",
+      stack: "JimuReport 1.8.0 / Java 8 / Spring Boot 2 / Vue 3 / TypeScript / MySQL / Nginx",
+      highlights: [
+        "负责将 JimuReport 1.8.0 集成至大马力 MES 报表服务，完成 Spring Boot Starter、组件扫描和基础配置，并从官方脚本中提取 11 张必要元数据表，避免示例业务数据污染 MES 数据库。",
+        "适配 MES 统一认证与多租户体系，实现自定义 TokenService，透传用户、角色、租户和组织信息；针对 iframe 无法携带 Authorization 请求头的问题，通过受保护接口换取 HttpOnly Cookie，兼顾报表访问与凭证安全。",
+        "开发报表设计、参数化预览及通用 iframe 加载组件，支持加载状态、异常提示和重新加载；处理 JimuReport 静态资源上下文路径、Vite 本地代理与 Nginx 部署兼容问题，最终复用 MES 原有 API 网关完成统一转发。"
+      ]
+    },
+    {
+      project: "大马力 MES 桌面端 Shell 与双模式导航重构",
+      stack: "WPF / Prism / MVVM / C# / Region Navigation",
+      highlights: [
+        "参与 MES 桌面客户端 Shell 视觉与交互升级，新增工作台首页及 Tree/Tile 双模式导航，在保留原业务模块加载方式的基础上改善多模块入口查找效率。",
+        "通过 NavigateMenuCatalog 聚合 Prism Region 中已注册的 MenuItem，动态生成工作台磁贴并复用原有点击与导航链路，避免维护第二套菜单及大范围修改业务模块。",
+        "处理菜单加载时序、树形与磁贴选中状态同步、页面切换和布局适配等问题，完成不同权限用户、模块切换及原功能回归验证。"
+      ],
+      link: "/projects/mes-shell-workbench/"
+    },
+    {
+      project: "EAM 资产管理系统 Web / API / App 多端迭代",
+      stack: "Vue / Java / Spring Boot / MyBatis / SQL / uni-app",
+      highlights: [
+        "参与物资盘点、编码修改、外委维修、设备台账和计划检修等业务迭代，覆盖 Vue Web、Spring Boot API、MyBatis 数据查询及 uni-app 移动端联调。",
+        "修复级联物资分类异步回显、盘点重复提交及多保管员权限判断问题；将单值权限改为集合匹配，并通过提交状态锁减少连续操作产生的重复请求。",
+        "按取消、验收等流程动作拆分外委维修校验，统一已取消单据的预算统计口径；补充科室名称模糊查询、Java 空值安全以及移动检修人员与实际工时计算逻辑。"
+      ],
       link: "/projects/eam-web/"
     }
   ]

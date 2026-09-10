@@ -30,20 +30,12 @@ const heading = "mb-3 border-b-2 border-slate-900 pb-1.5 text-base font-bold tra
       </ul>
     </header>
 
-    <div class="mt-7 space-y-7">
-      <section>
-        <h2 class={heading}>职业概述</h2>
-        <p class="text-sm leading-7">{resumeData.intro}</p>
-        <ul class="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700 dark:text-slate-300">
-          {resumeData.summaryParagraphs.map((item) => <li>{item}</li>)}
-        </ul>
-      </section>
-
+    <div class="resume-content-body mt-7 space-y-7">
       <section>
         <h2 class={heading}>工作经历</h2>
         <div class="space-y-6">
           {resumeData.workExperience.map((exp) => (
-            <div>
+            <div class="resume-entry">
               <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
                 <h3 class="font-bold text-slate-950 dark:text-white">{exp.company}</h3>
                 <time class="text-sm text-slate-500">{exp.period}</time>
@@ -59,33 +51,36 @@ const heading = "mb-3 border-b-2 border-slate-900 pb-1.5 text-base font-bold tra
         <h2 class={heading}>项目经历</h2>
         <div class="space-y-5">
           {resumeData.openSource.map((item) => (
-            <div>
+            <div class="resume-entry">
               <div class="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 class="font-bold text-slate-950 dark:text-white">{item.project}</h3>
                 {item.link && <a href={item.link} class="text-xs">项目详情</a>}
               </div>
-              <p class="mt-1.5 text-sm leading-6">{item.contribution}</p>
+              <p class="mt-1 text-xs font-medium text-slate-600 dark:text-slate-400">技术栈：{item.stack}</p>
+              <ul class="mt-1.5 list-disc space-y-1 pl-5 text-sm leading-6">
+                {item.highlights.map((highlight) => <li>{highlight}</li>)}
+              </ul>
             </div>
           ))}
         </div>
       </section>
 
-      <section>
+      <div class="resume-skills-section">
         <h2 class={heading}>专业技能</h2>
-        <dl class="space-y-2 text-sm leading-6">
+        <div class="resume-skills-list space-y-2 text-sm leading-6">
           {resumeData.skills.map((group) => (
-            <div class="grid gap-1 sm:grid-cols-[150px_1fr]">
-              <dt class="font-bold text-slate-950 dark:text-white">{group.category}</dt>
-              <dd><p>{group.items.map((item) => item.name).join("、")}</p><p class="text-slate-600 dark:text-slate-400">{group.description}</p></dd>
+            <div class="resume-skill-row grid gap-1 sm:grid-cols-[150px_1fr]">
+              <p class="font-bold text-slate-950 dark:text-white">{group.category}</p>
+              <div><p>{group.items.map((item) => item.name).join("、")}</p><p class="text-slate-600 dark:text-slate-400">{group.description}</p></div>
             </div>
           ))}
-        </dl>
-      </section>
+        </div>
+      </div>
 
       <section>
         <h2 class={heading}>教育背景</h2>
         {resumeData.education.map((edu) => (
-          <div>
+          <div class="resume-entry">
             <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
               <p><strong class="text-slate-950 dark:text-white">{edu.school}</strong><span class="ml-3 text-sm">{edu.degree}</span></p>
               <time class="text-sm text-slate-500">{edu.period}</time>
@@ -98,7 +93,7 @@ const heading = "mb-3 border-b-2 border-slate-900 pb-1.5 text-base font-bold tra
       <section>
         <h2 class={heading}>实习经历</h2>
         {resumeData.internships.map((exp) => (
-          <div>
+          <div class="resume-entry">
             <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline"><p><strong class="text-slate-950 dark:text-white">{exp.company}</strong><span class="ml-3 text-sm font-semibold">{exp.role}</span></p><time class="text-sm text-slate-500">{exp.period}</time></div>
             <ul class="mt-2 list-disc space-y-1 pl-5 text-sm leading-6">{exp.highlights.map((item) => <li>{item}</li>)}</ul>
           </div>
@@ -120,43 +115,103 @@ const heading = "mb-3 border-b-2 border-slate-900 pb-1.5 text-base font-bold tra
 <style is:global>
   @media print {
     @page {
-      size: A4;
-      margin: 10mm 12mm;
+      size: A4 portrait;
+      margin: 9mm 11mm;
     }
 
     html,
     body {
-      color-scheme: light;
       background: #fff !important;
-      font-size: 12px;
+      color: #111827 !important;
+      font-size: 10pt !important;
     }
 
     body::before,
     body > header,
-    body > nav,
+    .site-mobile-nav,
     .resume-screen-only {
       display: none !important;
     }
 
     body > main {
+      width: 100% !important;
       max-width: none !important;
+      margin: 0 !important;
       padding: 0 !important;
     }
 
     #resume-content {
+      width: 100% !important;
       max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
       border: 0 !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: #111827 !important;
       box-shadow: none !important;
-      color: #1e293b !important;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
     }
 
-    #resume-content section,
-    #resume-content li {
+    #resume-content > header {
+      padding-bottom: 3mm !important;
+    }
+
+    #resume-content h1 {
+      font-size: 22pt !important;
+    }
+
+    #resume-content h2 {
+      margin-bottom: 2mm !important;
+      padding-bottom: 1mm !important;
+      font-size: 12pt !important;
+    }
+
+    #resume-content h3,
+    #resume-content p,
+    #resume-content li,
+    #resume-content dt,
+    #resume-content dd,
+    #resume-content time {
+      color: #111827 !important;
+    }
+
+    #resume-content p,
+    #resume-content li,
+    #resume-content dt,
+    #resume-content dd {
+      line-height: 1.45 !important;
+    }
+
+    .resume-content-body {
+      margin-top: 4mm !important;
+    }
+
+    .resume-content-body > * + * {
+      margin-top: 4mm !important;
+    }
+
+    #resume-content section {
+      break-inside: auto;
+    }
+
+    .resume-skills-section,
+    .resume-skills-list {
+      display: block !important;
+      break-inside: auto !important;
+      page-break-inside: auto !important;
+    }
+
+    #resume-content .resume-entry,
+    #resume-content .resume-skill-row,
+    #resume-content h2,
+    #resume-content h3 {
       break-inside: avoid;
     }
 
     #resume-content a {
-      color: inherit !important;
+      color: #111827 !important;
       text-decoration: none !important;
     }
   }
