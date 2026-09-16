@@ -32,7 +32,7 @@ export const projects: ProjectItem[] = [
     kind: "opensource",
     pinned: true,
     repo: "https://github.com/ZhuLinsen/daily_stock_analysis",
-    image: "/project-daily-stock-analysis.svg",
+    image: "/project-daily-stock-analysis-v2.png",
     articlePath: "/posts/2026/06/daily-stock-analysis-deploy/",
     highlights: [
       "Windows 本机 Python 3.12 + venv 部署，WebUI 自动 npm 构建与 FastAPI 服务",
@@ -50,7 +50,7 @@ export const projects: ProjectItem[] = [
     tech: ["Vue 3", "TypeScript", "Vite", "Ant Design Vue", "Pinia", "Vue Router", "ECharts", "Tailwind CSS", "@ice/stark"],
     kind: "company",
     pinned: true,
-    image: "/project-mes-cloud-web.svg",
+    image: "/project-mes-cloud-web-v2.png",
     articlePath: "/posts/2026/05/mes-cloud-web-refactor/",
     highlights: [
       "首页工作台模块化：KPI 指标、待办日历、快捷入口、通知公告与今日计划，支持拖拽排序与模块显隐",
@@ -68,7 +68,7 @@ export const projects: ProjectItem[] = [
     tech: ["C#", "WPF", "XAML", "MVVM", "Prism", "Unity", "模块化架构"],
     kind: "company",
     pinned: true,
-    image: "/project-mes-shell.svg",
+    image: "/project-mes-shell-v2.png",
     articlePath: "/posts/2026/05/mes-shell-workbench-refactor/",
     highlights: [
       "新增 WorkbenchHomeView 工作台首页，登录后默认展示欢迎信息与模块快捷入口",
@@ -85,7 +85,7 @@ export const projects: ProjectItem[] = [
     tech: ["Java 8", "Spring Boot 2.6", "Maven", "微服务 / Gateway", "MySQL"],
     kind: "company",
     pinned: true,
-    image: "/project-eam-api.svg",
+    image: "/project-eam-api-v2.png",
     articlePath: "/posts/2026/08/eam-multi-end-delivery/",
     highlights: [
       "Maven 多模块拆分网关、认证、文件、代码生成、定时任务及各业务域服务",
@@ -100,7 +100,7 @@ export const projects: ProjectItem[] = [
       "资产管理系统 Web 端：Yarn workspaces 拆 framework / business，Vue 3 + Vite + Element Plus + Pinia；集成 BPMN 流程、ECharts 可视化、富文本与表格等典型企业后台能力（可选 qiankun 微前端形态）。",
     tech: ["Vue 3", "Vite", "TypeScript", "Element Plus", "Pinia", "ECharts", "BPMN", "qiankun"],
     kind: "company",
-    image: "/project-eam-web.svg",
+    image: "/project-eam-web-v2.png",
     articlePath: "/posts/2026/08/eam-multi-end-delivery/",
     highlights: [
       "Yarn workspaces 拆分 framework 与 business，支撑大型后台工程化协作",
@@ -115,7 +115,7 @@ export const projects: ProjectItem[] = [
       "WeiChaiEamApp：uni-app 跨端工程，支持 App-Plus、H5、各端小程序等构建脚本；Vue 2 + Vuex + uView UI，含扫码、图表、钉钉 JSAPI 等现场运维与移动办公场景。",
     tech: ["uni-app", "Vue 2", "Vuex", "uView UI", "ECharts", "App-Plus / H5"],
     kind: "company",
-    image: "/project-eam-app.svg",
+    image: "/project-eam-app-v2.png",
     articlePath: "/posts/2026/08/eam-multi-end-delivery/",
     highlights: [
       "uni-app 一套代码覆盖 App-Plus、H5 与多端小程序构建",

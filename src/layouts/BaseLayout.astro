@@ -66,25 +66,23 @@ function navActive(href: string) {
     </script>
   </head>
   <body class="min-h-screen antialiased">
-    <header
-      class="sticky top-0 z-40 border-b border-surface-ink/10 bg-white/75 shadow-sm shadow-slate-900/5 backdrop-blur-xl dark:border-white/10 dark:bg-surface-ink/80 dark:shadow-black/20"
-    >
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:flex-nowrap">
+    <header class="sticky top-0 z-40 border-b border-stone-300/80 bg-[#f8f5ef]/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#171513]/90">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-4 md:flex-nowrap md:px-8">
         <a
           href="/"
-          class="bg-gradient-to-r from-brand to-sky-500 bg-clip-text text-lg font-bold text-transparent transition hover:opacity-90"
+          class="font-serif text-xl font-semibold tracking-wide text-surface-ink transition hover:text-brand dark:text-white"
         >
           {siteConfig.title}
         </a>
-        <nav class="order-3 flex w-full flex-wrap justify-center gap-1 text-sm md:order-none md:flex md:w-auto md:justify-start md:gap-1">
+        <nav class="order-3 flex w-full flex-wrap justify-center gap-1 text-sm md:order-none md:flex md:w-auto md:justify-start md:gap-5">
           {siteConfig.nav.map((item) => (
             <a
               href={item.href}
               class:list={[
-                "rounded-full px-3 py-1.5 font-medium transition",
+                "border-b px-1 py-1.5 font-medium transition",
                 navActive(item.href)
-                  ? "bg-brand/12 text-brand shadow-sm dark:bg-brand/20 dark:text-sky-300"
-                  : "text-surface-ink/78 hover:bg-surface-ink/[0.06] hover:text-brand dark:text-surface-muted/88 dark:hover:bg-white/[0.06] dark:hover:text-sky-400"
+                  ? "border-brand text-brand"
+                  : "border-transparent text-surface-ink/68 hover:border-surface-ink/30 hover:text-surface-ink dark:text-white/68 dark:hover:border-white/30 dark:hover:text-white"
               ]}
             >
               {item.label}
@@ -94,9 +92,15 @@ function navActive(href: string) {
         <ThemeControls client:load />
       </div>
     </header>
-    <main class="mx-auto max-w-6xl flex-1 px-4 py-8 pb-24 md:pb-10">
+    <main class="mx-auto max-w-7xl flex-1 px-5 py-8 pb-24 md:px-8 md:pb-12">
       <slot />
     </main>
+    <footer class="border-t border-stone-300 dark:border-white/15">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-xs text-surface-ink/45 dark:text-white/40 sm:flex-row sm:items-center sm:justify-between md:px-8">
+        <p>© {new Date().getFullYear()} 王雨婷 · 真实项目与学习记录</p>
+        <div class="flex gap-5"><a href="/tags" class="hover:text-brand">主题</a><a href="/build-log" class="hover:text-brand">建设日志</a><a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" class="hover:text-brand">GitHub</a></div>
+      </div>
+    </footer>
     <GlobalHotkeys client:idle />
     <MobileBottomNav client:idle navItems={siteConfig.nav.slice(0, 4)} currentPath={Astro.url.pathname} />
   </body>

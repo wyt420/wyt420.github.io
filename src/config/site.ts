@@ -5,8 +5,8 @@
  * LinkedIn / Twitter 若暂无独立主页，可后续改为真实链接。
  */
 export const siteConfig = {
-  title: "WYT 技术博客",
-  description: "个人技术博客 · 在线简历 · 项目作品集 · 建设日志（Astro + Vue + Tailwind）",
+  title: "王雨婷",
+  description: "记录 MES、EAM 项目中的需求、开发与排障，也记录我学习 AI 应用开发的过程。",
   author: "王雨婷",
   siteUrl: "https://wyt420.github.io",
   avatar: "/avatar.svg",
@@ -19,10 +19,8 @@ export const siteConfig = {
   nav: [
     { href: "/", label: "首页" },
     { href: "/projects", label: "项目" },
-    { href: "/archives", label: "归档" },
-    { href: "/tags", label: "标签" },
-    { href: "/build-log", label: "建设日志" },
-    { href: "/resume", label: "在线简历" },
+    { href: "/archives", label: "文章" },
+    { href: "/resume", label: "简历" },
     { href: "/about", label: "关于" }
   ]
 } as const;

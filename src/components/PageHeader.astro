@@ -1,7 +1,4 @@
 ---
-/**
- * 内页统一页头：渐变底、圆角边框，与首页 Hero 同系视觉语言。
- */
 interface Props {
   title: string;
   description?: string;
@@ -11,31 +8,21 @@ interface Props {
 const { title, description, eyebrow } = Astro.props;
 ---
 
-<header
-  class="relative mb-8 overflow-hidden rounded-3xl border border-surface-ink/10 bg-gradient-to-br from-white via-slate-50/95 to-brand/[0.06] px-6 py-8 shadow-sm dark:border-white/10 dark:from-slate-950 dark:via-slate-900/90 dark:to-brand-accent/[0.12] md:px-9 md:py-10"
->
-  <div
-    class="pointer-events-none absolute -right-16 -top-24 h-48 w-48 rounded-full bg-brand/20 blur-3xl dark:bg-brand/25"
-    aria-hidden="true"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute -bottom-20 -left-12 h-40 w-40 rounded-full bg-brand-accent/15 blur-3xl dark:bg-brand-accent/20"
-    aria-hidden="true"
-  >
-  </div>
-  <div class="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+<header class="mb-12 border-b border-stone-300 pb-9 pt-5 dark:border-white/15 md:mb-16 md:pb-12 md:pt-10">
+  <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
     <div class="min-w-0 flex-1">
       {eyebrow && (
-        <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand dark:text-sky-400">{eyebrow}</p>
+        <p class="mb-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-brand">
+          {eyebrow}
+        </p>
       )}
-      <h1 class="text-2xl font-bold tracking-tight text-surface-ink dark:text-surface-muted md:text-3xl">{title}</h1>
+      <h1 class="font-serif text-4xl font-medium tracking-[-0.035em] text-surface-ink dark:text-white md:text-6xl">{title}</h1>
       {description && (
-        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-surface-ink/70 dark:text-surface-muted/80">{description}</p>
+        <p class="mt-5 max-w-2xl text-sm leading-7 text-surface-ink/62 dark:text-surface-muted/65 md:text-base">{description}</p>
       )}
       <slot />
     </div>
-    <div class="shrink-0 md:pb-0.5">
+    <div class="shrink-0 md:pb-1">
       <slot name="actions" />
     </div>
   </div>

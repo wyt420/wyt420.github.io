@@ -12,12 +12,12 @@ export default {
     extend: {
       colors: {
         brand: {
-          DEFAULT: "#165DFF",
-          accent: "#722ED1"
+          DEFAULT: "#8F2D32",
+          accent: "#5F2226"
         },
         surface: {
-          muted: "#F5F7FA",
-          ink: "#1D2129"
+          muted: "#F4F0E9",
+          ink: "#211E1B"
         }
       }
     }

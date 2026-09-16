@@ -1,6 +1,6 @@
 /**
  * 全局样式入口：Tailwind 层 + 设计 token。
- * 主色 #165DFF、辅助 #722ED1、浅底 #F5F7FA、深色 #1D2129；动效统一 300ms ease-in-out。
+ * 暖白、炭黑与深酒红构成编辑式视觉系统。
  */
 @tailwind base;
 @tailwind components;
@@ -8,10 +8,10 @@
 
 :root {
   color-scheme: light dark;
-  --color-primary: #165dff;
-  --color-accent: #722ed1;
-  --color-surface: #f5f7fa;
-  --color-ink: #1d2129;
+  --color-primary: #8f2d32;
+  --color-accent: #5f2226;
+  --color-surface: #f4f0e9;
+  --color-ink: #211e1b;
 }
 
 html {
@@ -34,7 +34,7 @@ body {
   @apply relative min-h-screen bg-surface-muted text-surface-ink transition-colors duration-300 ease-in-out dark:bg-surface-ink dark:text-surface-muted;
 }
 
-/* 全站淡色网格 + 光晕底（固定层，不挡交互） */
+/* 轻微纸张质感，为大面积暖白背景增加深度。 */
 body::before {
   content: "";
   position: fixed;
@@ -43,28 +43,26 @@ body::before {
   pointer-events: none;
   opacity: 0.55;
   background:
-    radial-gradient(ellipse 120% 70% at 50% -25%, rgba(22, 93, 255, 0.11), transparent 52%),
-    radial-gradient(ellipse 55% 45% at 100% 8%, rgba(114, 46, 209, 0.08), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 0% 90%, rgba(22, 93, 255, 0.05), transparent 48%),
-    linear-gradient(rgba(29, 33, 41, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(29, 33, 41, 0.04) 1px, transparent 1px);
-  background-size:
-    auto,
-    auto,
-    auto,
-    56px 56px,
-    56px 56px;
+    radial-gradient(circle at 88% 2%, rgba(143, 45, 50, 0.06), transparent 26%),
+    repeating-linear-gradient(0deg, rgba(33, 30, 27, 0.014) 0, rgba(33, 30, 27, 0.014) 1px, transparent 1px, transparent 5px);
 }
 
 .dark body::before {
-  opacity: 0.45;
+  opacity: 0.4;
   background:
-    radial-gradient(ellipse 120% 70% at 50% -20%, rgba(22, 93, 255, 0.18), transparent 55%),
-    radial-gradient(ellipse 50% 42% at 100% 0%, rgba(114, 46, 209, 0.12), transparent 50%),
-    radial-gradient(ellipse 45% 38% at 0% 95%, rgba(56, 189, 248, 0.06), transparent 50%),
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: auto, auto, auto, 56px 56px, 56px 56px;
+    radial-gradient(circle at 78% 0%, rgba(143, 45, 50, 0.16), transparent 32%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0, rgba(255, 255, 255, 0.018) 1px, transparent 1px, transparent 5px);
+}
+
+body {
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
 }
 
 /* 正文内代码块容器：与 PostRuntime 中「复制」按钮配合 */

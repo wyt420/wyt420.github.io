@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 type ThemeMode = "light" | "dark" | "system";
 type FontSize = "sm" | "base" | "lg";
@@ -21,9 +21,6 @@ const fontLabels: Record<FontSize, string> = {
   base: "中",
   lg: "大"
 };
-
-const themeIndex = computed(() => Math.max(0, themeOrder.indexOf(mode.value)));
-const fontIndex = computed(() => Math.max(0, fontOrder.indexOf(fontSize.value)));
 
 const apply = () => {
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -63,27 +60,22 @@ function setFont(f: FontSize) {
 </script>
 
 <template>
-  <div class="flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:gap-3" role="toolbar" aria-label="外观设置">
-    <div class="flex items-center gap-2">
-      <span class="hidden text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 sm:inline">主题</span>
-      <div
-        class="relative flex w-[9.75rem] shrink-0 rounded-full border border-slate-200/90 bg-slate-100/90 p-1 shadow-inner dark:border-white/10 dark:bg-slate-900/80"
-        role="group"
-        aria-label="主题模式"
-      >
-        <span
-          class="pointer-events-none absolute bottom-1 left-1 top-1 w-[calc((100%-0.5rem)/3)] rounded-full bg-gradient-to-r from-brand to-sky-500 shadow-md shadow-brand/25 transition-transform duration-300 ease-out will-change-transform dark:shadow-brand/30"
-          :style="{ transform: `translateX(calc(${themeIndex} * 100%))` }"
-        />
+  <details class="group relative" aria-label="外观设置">
+    <summary class="cursor-pointer list-none border-b border-transparent py-1.5 text-sm text-surface-ink/60 transition hover:border-surface-ink/30 hover:text-surface-ink dark:text-white/60 dark:hover:text-white">
+      显示设置
+    </summary>
+    <div class="absolute right-0 top-full z-50 mt-3 w-64 border border-stone-300 bg-[#fbf8f2] p-5 shadow-[0_18px_50px_rgba(39,30,25,.14)] dark:border-white/15 dark:bg-[#211e1b]">
+      <p class="mb-3 text-[10px] font-semibold tracking-[0.18em] text-surface-ink/45 dark:text-white/45">主题</p>
+      <div class="grid grid-cols-3 border border-stone-300 dark:border-white/15" role="group" aria-label="主题模式">
         <button
           v-for="m in themeOrder"
           :key="m"
           type="button"
-          class="relative z-10 flex-1 rounded-full py-1.5 text-center text-[11px] font-semibold transition-colors md:text-xs"
+          class="border-r border-stone-300 px-2 py-2 text-xs transition-colors last:border-r-0 dark:border-white/15"
           :class="
             mode === m
-              ? 'text-white'
-              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
+              ? 'bg-brand text-white'
+              : 'text-surface-ink/60 hover:bg-stone-100 dark:text-white/60 dark:hover:bg-white/5'
           "
           :aria-pressed="mode === m"
           @click="setMode(m)"
@@ -91,28 +83,17 @@ function setFont(f: FontSize) {
           {{ themeLabels[m] }}
         </button>
       </div>
-    </div>
-
-    <div class="flex items-center gap-2">
-      <span class="hidden text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 sm:inline">字号</span>
-      <div
-        class="relative flex w-[9.75rem] shrink-0 rounded-full border border-slate-200/90 bg-slate-100/90 p-1 shadow-inner dark:border-white/10 dark:bg-slate-900/80"
-        role="group"
-        aria-label="正文字号"
-      >
-        <span
-          class="pointer-events-none absolute bottom-1 left-1 top-1 w-[calc((100%-0.5rem)/3)] rounded-full border border-brand/20 bg-white/95 shadow-sm transition-transform duration-300 ease-out will-change-transform dark:border-white/10 dark:bg-slate-700/95"
-          :style="{ transform: `translateX(calc(${fontIndex} * 100%))` }"
-        />
+      <p class="mb-3 mt-5 text-[10px] font-semibold tracking-[0.18em] text-surface-ink/45 dark:text-white/45">字号</p>
+      <div class="grid grid-cols-3 border border-stone-300 dark:border-white/15" role="group" aria-label="正文字号">
         <button
           v-for="f in fontOrder"
           :key="f"
           type="button"
-          class="relative z-10 flex-1 rounded-full py-1.5 text-center text-[11px] font-semibold transition-colors md:text-xs"
+          class="border-r border-stone-300 px-2 py-2 text-xs transition-colors last:border-r-0 dark:border-white/15"
           :class="
             fontSize === f
-              ? 'text-brand dark:text-sky-300'
-              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
+              ? 'bg-brand text-white'
+              : 'text-surface-ink/60 hover:bg-stone-100 dark:text-white/60 dark:hover:bg-white/5'
           "
           :aria-pressed="fontSize === f"
           @click="setFont(f)"
@@ -121,5 +102,5 @@ function setFont(f: FontSize) {
         </button>
       </div>
     </div>
-  </div>
+  </details>
 </template>

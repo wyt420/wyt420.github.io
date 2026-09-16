@@ -5,28 +5,42 @@ import { getPublishedPosts, toTagMap } from "@/lib/content";
 
 const posts = await getPublishedPosts();
 const tags = toTagMap(posts);
-const max = Math.max(1, ...tags.map((t) => t.count));
+const descriptions: Record<string, string> = {
+  MES: "制造执行系统的 Web、桌面端与报表实践",
+  EAM: "资产管理系统的业务迭代与问题复盘",
+  "AI 应用": "大模型应用、Agent 与个人学习记录",
+  "Web 前端": "企业后台、交互和状态管理",
+  后端开发: "业务接口、数据查询与规则实现",
+  桌面端: "WPF 客户端与模块化导航",
+  移动端: "现场作业和移动审批体验",
+  网站建设: "这个网站的设计、性能与维护",
+  项目实践: "从需求到交付的完整项目记录"
+};
 ---
 
-<BaseLayout title="标签">
-  <PageHeader eyebrow="Tags" title="标签云" description="按标签聚合文章，标签大小表示文章数量相对多少。" />
+<BaseLayout title="主题">
+  <PageHeader eyebrow="Index" title="文章主题" description="不罗列所有工具名，只保留我真正做过并会持续记录的方向。" />
 
-  <div class="flex flex-wrap gap-3">
-    {
-      tags.map((item) => {
-        const ratio = 0.75 + (item.count / max) * 0.55;
-        return (
-          <a
-            href={`/tags/${item.tag}/`}
-            class="rounded-2xl border border-surface-ink/10 bg-white/70 px-4 py-2.5 font-medium shadow-sm backdrop-blur-md transition hover:border-brand/35 hover:shadow-md hover:shadow-brand/10 dark:border-white/10 dark:bg-surface-ink/50 dark:hover:border-brand/40"
-            style={`font-size: ${ratio}rem`}
-          >
-            <span class="text-brand dark:text-sky-400">#</span>
-            {item.tag}
-            <span class="ml-1.5 text-xs tabular-nums text-surface-ink/50 dark:text-surface-muted/50">({item.count})</span>
-          </a>
-        );
-      })
-    }
+  <div class="grid border-l border-t border-stone-300 dark:border-white/15 md:grid-cols-2 lg:grid-cols-3">
+    {tags.map((item, index) => (
+      <a
+        href={`/tags/${item.tag}/`}
+        class:list={[
+          "group relative min-h-52 overflow-hidden border-b border-r border-stone-300 p-7 transition hover:bg-white/45 dark:border-white/15 dark:hover:bg-white/[0.035]",
+          index === 0 || index === 1 ? "lg:min-h-60" : ""
+        ]}
+      >
+        <span class="absolute -right-3 -top-6 font-serif text-[7rem] leading-none text-brand/[0.045] transition group-hover:text-brand/[0.08]">{String(index + 1).padStart(2, "0")}</span>
+        <div class="relative flex h-full flex-col">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] tracking-[0.2em] text-brand">TOPIC / {String(index + 1).padStart(2, "0")}</span>
+            <span class="text-[11px] text-surface-ink/40 dark:text-white/40">{item.count} 篇</span>
+          </div>
+          <strong class="mt-8 font-serif text-2xl font-medium tracking-[-0.025em] text-surface-ink transition group-hover:text-brand dark:text-white">{item.tag}</strong>
+          <span class="mt-3 text-sm leading-6 text-surface-ink/55 dark:text-white/50">{descriptions[item.tag] ?? "相关开发与实践记录"}</span>
+          <span class="mt-auto pt-6 text-sm text-brand transition group-hover:translate-x-1">浏览文章 →</span>
+        </div>
+      </a>
+    ))}
   </div>
 </BaseLayout>

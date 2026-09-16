@@ -1,62 +1,24 @@
 ---
-/** 关于页：简介 + 外链；GitHub 统计在每次构建时拉取（见 src/lib/githubStats.ts）。 */
+/** 关于页：个人简介、工作方向与成长经历。 */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/PageHeader.astro";
 import { siteConfig } from "@/config/site";
-import { resumeData } from "@/config/resume";
-import { getPublishedPosts } from "@/lib/content";
-import {
-  fetchGithubAboutStats,
-  formatGithubStatResult,
-  githubLoginFromUrl,
-  hintForGithubStat
-} from "@/lib/githubStats";
-
-const posts = await getPublishedPosts();
-const ghLogin = githubLoginFromUrl(siteConfig.social.github) ?? "wyt420";
-const token = import.meta.env.GITHUB_API_TOKEN;
-const ghStats = await fetchGithubAboutStats(ghLogin, token);
-
-const statCards = [
-  { label: "博客文章", value: String(posts.length), hint: "", valueClass: "" },
-  {
-    label: "GitHub Stars",
-    value: formatGithubStatResult(ghStats.totalStars),
-    hint: hintForGithubStat("stars", ghStats.totalStars),
-    valueClass: ghStats.totalStars.status === "timeout" ? "text-amber-700 dark:text-amber-400" : ""
-  },
-  {
-    label: "提交贡献（近12月）",
-    value: formatGithubStatResult(ghStats.commitsLastYear),
-    hint: hintForGithubStat("commits", ghStats.commitsLastYear),
-    valueClass: ghStats.commitsLastYear.status === "timeout" ? "text-amber-700 dark:text-amber-400" : ""
-  },
-  {
-    label: "GitHub 公开仓库",
-    value: formatGithubStatResult(ghStats.publicRepos),
-    hint: hintForGithubStat("repos", ghStats.publicRepos),
-    valueClass: ghStats.publicRepos.status === "timeout" ? "text-amber-700 dark:text-amber-400" : ""
-  }
-];
 
 const focusAreas = [
   {
     index: "01",
     title: "AI 应用工程",
     description: "把模型 API、搜索、Agent 与业务流程连接起来，关注可用性、成本和异常兜底。",
-    tech: ["DeepSeek", "LiteLLM", "FastAPI", "Tavily"]
   },
   {
     index: "02",
     title: "智能制造",
     description: "长期参与 MES、EAM、ERP 建设，从现场问题出发理解生产、设备、物资和维修流程。",
-    tech: ["MES", "EAM", "ERP", "业务流程"]
   },
   {
     index: "03",
     title: "全栈交付",
     description: "覆盖 Web、API 与移动端，能够完成需求拆解、功能实现、接口联调和部署验证。",
-    tech: ["Vue 3", "Spring Boot", "SQL", "uni-app"]
   }
 ];
 
@@ -75,147 +37,59 @@ const journey = [
     description="王雨婷 · AI 应用工程 × 制造业数字化。记录真实项目、问题复盘与持续成长。"
   />
 
-  <div class="flex flex-col gap-8 md:flex-row md:items-start">
-    <div class="flex shrink-0 items-center gap-4 rounded-3xl border border-surface-ink/10 bg-white/70 p-5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-surface-ink/50 md:flex-col md:items-center md:py-8">
-      <img src={siteConfig.avatar} alt="头像" width="96" height="96" class="rounded-2xl ring-2 ring-brand/20" loading="lazy" />
-      <p class="max-w-xs text-sm leading-relaxed text-surface-ink/75 dark:text-surface-muted/85 md:text-center">
-        本站源码：
-        <a class="font-medium text-brand hover:underline" href="https://github.com/wyt420/wyt420.github.io">wyt420/wyt420.github.io</a>
-        ，由 Astro + Vue + Tailwind 构建并部署在 GitHub Pages。
-      </p>
+  <section class="grid gap-8 border-b border-stone-300 pb-14 dark:border-white/15 md:grid-cols-[220px_1fr] md:gap-14 md:pb-16">
+    <div>
+      <img src={siteConfig.avatar} alt="王雨婷" width="160" height="160" class="h-32 w-32 border border-stone-300 object-cover dark:border-white/15 md:h-40 md:w-40" loading="lazy" />
+      <p class="mt-5 text-[10px] font-semibold tracking-[0.22em] text-brand">WANG YUTING</p>
     </div>
-
-    <div class="min-w-0 flex-1 space-y-6">
-      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          statCards.map((item) => (
-            <div
-              title={item.hint || undefined}
-              class="rounded-2xl border border-surface-ink/10 bg-gradient-to-br from-white/90 to-brand/[0.04] p-4 shadow-sm dark:border-white/10 dark:from-surface-ink/80 dark:to-brand-accent/[0.08]"
-            >
-              <div
-                class:list={[
-                  "text-2xl font-bold tabular-nums text-surface-ink dark:text-surface-muted",
-                  item.valueClass,
-                  item.value.length > 8 ? "text-base leading-snug sm:text-lg" : ""
-                ]}
-              >
-                {item.value}
-              </div>
-              <div class="mt-1 text-xs font-medium uppercase tracking-wider text-surface-ink/50 dark:text-surface-muted/55">
-                {item.label}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-
-      <p class="text-xs leading-relaxed text-surface-ink/50 dark:text-surface-muted/50">
-        以上 GitHub 数据在<strong>每次执行构建</strong>时拉取；若出现<strong>获取数据超时</strong>，说明单次请求超过
-        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">GITHUB_FETCH_TIMEOUT_MS</code>（默认 15000ms），可调大后重试。本地请将
-        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">GITHUB_API_TOKEN</code> 写入
-        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">.env</code>。GitHub Actions 部署已默认注入
-        <code class="rounded bg-surface-ink/5 px-1 dark:bg-white/10">GITHUB_TOKEN</code>
-        作为同名变量。
+    <div class="max-w-3xl">
+      <p class="font-serif text-2xl leading-relaxed text-surface-ink dark:text-white md:text-3xl md:leading-relaxed">
+        我是一名制造业信息化工程师，主要参与 MES、EAM 与企业数字化项目，也在持续学习如何把 AI 能力落进真实业务场景。
       </p>
-
-      <div class="flex flex-wrap gap-2">
-        <a
-          href={siteConfig.social.github}
-          class="rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium transition hover:border-brand/40 hover:text-brand dark:border-white/10 dark:bg-surface-ink/50"
-        >
-          GitHub
-        </a>
-        <a
-          href={siteConfig.social.linkedin}
-          class="rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium transition hover:border-brand-accent/40 hover:text-brand-accent dark:border-white/10 dark:bg-surface-ink/50"
-        >
-          LinkedIn
-        </a>
-        <a
-          href={siteConfig.social.twitter}
-          class="rounded-full border border-surface-ink/12 bg-white/70 px-4 py-2 text-sm font-medium transition hover:border-brand/40 hover:text-brand dark:border-white/10 dark:bg-surface-ink/50"
-        >
-          Twitter
-        </a>
-      </div>
-
-      <div class="flex flex-wrap gap-3">
-        <a
-          href="/resume"
-          class="rounded-full bg-gradient-to-r from-brand to-sky-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand/25 transition hover:shadow-lg hover:shadow-brand/35"
-        >
-          查看在线简历
-        </a>
-        <a
-          href="/projects"
-          class="rounded-full border border-brand/35 bg-brand/5 px-5 py-2.5 text-sm font-semibold text-brand transition hover:border-brand/55 hover:bg-brand/10 dark:border-sky-400/40 dark:text-sky-300"
-        >
-          项目作品集
-        </a>
+      <p class="mt-6 max-w-2xl text-sm leading-7 text-surface-ink/60 dark:text-white/58">
+        工作中，我会从需求沟通、业务梳理开始，完成开发、联调、问题定位和上线验证。这里记录的不是工具清单，而是我实际处理过的问题、做过的项目，以及对这些工作的复盘。
+      </p>
+      <div class="mt-8 flex flex-wrap gap-x-7 gap-y-3 border-t border-stone-300 pt-5 text-sm dark:border-white/15">
+        <a href="/projects" class="border-b border-brand pb-1 text-brand">查看项目</a>
+        <a href="/resume" class="border-b border-transparent pb-1 text-surface-ink/60 hover:border-surface-ink/30 hover:text-surface-ink dark:text-white/60 dark:hover:text-white">在线简历</a>
+        <a href="mailto:984102889@qq.com" class="border-b border-transparent pb-1 text-surface-ink/60 hover:border-surface-ink/30 hover:text-surface-ink dark:text-white/60 dark:hover:text-white">联系我</a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <section class="mt-12">
+  <section class="mt-14 md:mt-16">
     <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div>
         <p class="text-xs font-bold uppercase tracking-[0.22em] text-brand">What I Build</p>
-        <h2 class="mt-2 text-2xl font-bold">我正在构建的能力组合</h2>
+        <h2 class="mt-2 font-serif text-3xl font-medium">我正在构建的能力组合</h2>
       </div>
       <p class="max-w-xl text-sm leading-6 text-surface-ink/60 dark:text-surface-muted/65">
         我的优势不是单独掌握某一个框架，而是能够理解企业业务，再选择合适的技术把方案真正落地。
       </p>
     </div>
-    <div class="grid gap-4 md:grid-cols-3">
+    <div class="mt-8 grid border-l border-t border-stone-300 dark:border-white/15 md:grid-cols-3">
       {focusAreas.map((area) => (
-        <article class="group relative overflow-hidden rounded-3xl border border-surface-ink/10 bg-white/75 p-6 shadow-sm transition hover:-translate-y-1 hover:border-brand/30 hover:shadow-xl hover:shadow-brand/10 dark:border-white/10 dark:bg-surface-ink/50">
-          <span class="absolute right-5 top-3 text-5xl font-black text-brand/[0.08] transition group-hover:text-brand/[0.14]">{area.index}</span>
-          <h3 class="relative text-lg font-bold">{area.title}</h3>
-          <p class="relative mt-3 min-h-20 text-sm leading-6 text-surface-ink/65 dark:text-surface-muted/70">{area.description}</p>
-          <ul class="relative mt-4 flex flex-wrap gap-2">{area.tech.map((item) => <li class="rounded-full bg-brand/8 px-3 py-1 text-xs font-medium text-brand-accent dark:bg-brand/15 dark:text-sky-300">{item}</li>)}</ul>
+        <article class="group relative min-h-56 overflow-hidden border-b border-r border-stone-300 p-7 dark:border-white/15">
+          <span class="font-serif text-sm text-brand">{area.index}</span>
+          <h3 class="relative mt-10 font-serif text-2xl font-medium">{area.title}</h3>
+          <p class="relative mt-4 text-sm leading-7 text-surface-ink/60 dark:text-surface-muted/65">{area.description}</p>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-    <div class="rounded-3xl border border-surface-ink/10 bg-white/75 p-6 shadow-sm dark:border-white/10 dark:bg-surface-ink/50 md:p-7">
-      <p class="text-xs font-bold uppercase tracking-[0.22em] text-brand">Capability Map</p>
-      <h2 class="mt-2 text-xl font-bold">技术能力图谱</h2>
-      <div class="mt-6 space-y-6">
-        {resumeData.skills.map((group) => (
-          <div>
-            <div class="mb-3 flex items-center justify-between gap-3"><h3 class="text-sm font-bold">{group.category}</h3><span class="text-xs text-surface-ink/40 dark:text-surface-muted/45">{group.items.length} 项</span></div>
-            <div class="space-y-2">
-              {group.items.map((skill) => (
-                <div class="grid grid-cols-[minmax(0,1fr)_110px] items-center gap-3 sm:grid-cols-[190px_minmax(0,1fr)_38px]">
-                  <span class="truncate text-xs text-surface-ink/70 dark:text-surface-muted/75">{skill.name}</span>
-                  <div class="h-1.5 overflow-hidden rounded-full bg-surface-ink/8 dark:bg-white/10"><div class="h-full rounded-full bg-gradient-to-r from-brand to-sky-400" style={`width:${skill.level}%`}></div></div>
-                  <span class="hidden text-right text-xs tabular-nums text-surface-ink/40 sm:block">{skill.level}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="rounded-3xl border border-surface-ink/10 bg-gradient-to-br from-surface-ink to-slate-800 p-6 text-white shadow-sm dark:border-white/10 md:p-7">
-      <p class="text-xs font-bold uppercase tracking-[0.22em] text-sky-300">Current Focus</p>
-      <h2 class="mt-2 text-xl font-bold">近期关注</h2>
-      <div class="mt-6 space-y-5">
-        <div><p class="text-sm font-semibold">AI × 企业系统</p><p class="mt-1 text-sm leading-6 text-white/65">探索如何把大模型能力接入已有 MES / EAM，而不是停留在独立聊天界面。</p></div>
-        <div><p class="text-sm font-semibold">可靠的 Agent 工作流</p><p class="mt-1 text-sm leading-6 text-white/65">关注工具调用、外部搜索、错误降级、费用控制以及结果可追溯。</p></div>
-        <div><p class="text-sm font-semibold">项目经验产品化</p><p class="mt-1 text-sm leading-6 text-white/65">把日常功能开发和问题定位整理成可检索、可复用的技术资产。</p></div>
-      </div>
-      <blockquote class="mt-8 border-l-2 border-sky-300 pl-4 text-sm italic leading-6 text-white/80">“技术的价值，不只是完成页面，而是让复杂业务变得清晰、可靠、可持续。”</blockquote>
+  <section class="mt-14 grid gap-8 border-y border-stone-300 py-10 dark:border-white/15 md:grid-cols-[.7fr_1.3fr] md:gap-14 md:py-12">
+    <div><p class="text-xs font-bold uppercase tracking-[0.22em] text-brand">Current Focus</p><h2 class="mt-3 font-serif text-3xl font-medium">近期关注</h2></div>
+    <div class="grid gap-7 sm:grid-cols-3">
+      <div><p class="font-serif text-lg">AI × 企业系统</p><p class="mt-2 text-sm leading-6 text-surface-ink/58 dark:text-white/55">探索如何把大模型能力接入已有 MES / EAM，而不是停留在独立聊天界面。</p></div>
+      <div><p class="font-serif text-lg">可靠的工作流</p><p class="mt-2 text-sm leading-6 text-surface-ink/58 dark:text-white/55">关注工具调用、外部搜索、错误降级、费用控制以及结果可追溯。</p></div>
+      <div><p class="font-serif text-lg">经验沉淀</p><p class="mt-2 text-sm leading-6 text-surface-ink/58 dark:text-white/55">把日常功能开发和问题定位整理成可检索、可复用的项目资产。</p></div>
     </div>
   </section>
 
   <section class="mt-12">
     <p class="text-xs font-bold uppercase tracking-[0.22em] text-brand">Journey</p>
-    <h2 class="mt-2 text-2xl font-bold">从信息系统到 AI 应用</h2>
+    <h2 class="mt-2 font-serif text-3xl font-medium">从信息系统到 AI 应用</h2>
     <ol class="relative mt-7 space-y-0 before:absolute before:bottom-3 before:left-[5px] before:top-3 before:w-px before:bg-brand/25 md:before:left-[128px]">
       {journey.map((item) => (
         <li class="relative grid gap-2 pb-7 pl-8 md:grid-cols-[110px_1fr] md:gap-7 md:pl-0">

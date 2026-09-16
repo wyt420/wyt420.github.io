@@ -1,5 +1,5 @@
 ---
-/** 首页 / 标签列表中的文章卡片：标题、摘要、标签与置顶角标。 */
+/** 编辑式文章条目：以标题、日期和内容摘要为主，弱化卡片装饰。 */
 import type { Post } from "@/lib/content";
 import { postPermalink } from "@/lib/url";
 interface Props {
@@ -9,31 +9,18 @@ const { post } = Astro.props;
 const href = postPermalink(post);
 ---
 
-<article
-  class="group relative cursor-pointer rounded-xl border border-surface-ink/10 bg-white/80 p-5 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-brand/35 hover:shadow-lg hover:shadow-brand/10 dark:border-white/10 dark:bg-surface-ink/40 dark:hover:shadow-brand/15"
->
-  <a href={href} class="absolute inset-0 z-0 rounded-xl" aria-label={`阅读文章：${post.data.title}`}></a>
-  <div class="pointer-events-none relative z-[1] mb-2 flex items-center gap-2 text-xs text-surface-ink/55 dark:text-surface-muted/55">
+<article class="group relative grid gap-3 border-t border-stone-300 py-7 transition dark:border-white/15 md:grid-cols-[9rem_1fr_auto] md:items-start md:gap-6">
+  <a href={href} class="absolute inset-0 z-0" aria-label={`阅读文章：${post.data.title}`}></a>
+  <div class="pointer-events-none relative z-[1] flex items-center gap-2 text-[11px] tracking-[0.08em] text-surface-ink/45 dark:text-surface-muted/45">
     {post.data.top && (
-      <span class="rounded bg-brand px-2 py-1 text-xs font-medium text-white">置顶</span>
+      <span class="text-brand">置顶</span>
     )}
     <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString("zh-CN")}</time>
   </div>
-  <h2 class="pointer-events-none relative z-[1] text-xl font-bold text-surface-ink transition group-hover:text-brand dark:text-surface-muted">
-    {post.data.title}
-  </h2>
-  {post.data.description && (
-    <p class="pointer-events-none relative z-[1] mt-2 line-clamp-2 text-sm text-surface-ink/70 dark:text-surface-muted/80">{post.data.description}</p>
-  )}
-  <p class="pointer-events-none relative z-[1] mt-3 text-xs font-medium text-brand dark:text-sky-400">阅读全文 →</p>
-  <div class="relative z-[2] mt-3 flex flex-wrap gap-2 text-xs">
-    {post.data.tags.map((tag) => (
-      <a
-        href={`/tags/${tag}/`}
-        class="pointer-events-auto rounded-full border border-brand/20 bg-brand/5 px-2 py-1 text-brand-accent hover:border-brand/40 dark:border-white/15 dark:bg-white/5 dark:text-brand"
-      >
-        #{tag}
-      </a>
-    ))}
+  <div class="pointer-events-none relative z-[1]">
+    <h2 class="font-serif text-xl font-medium leading-snug text-surface-ink transition group-hover:text-brand dark:text-surface-muted md:text-2xl">{post.data.title}</h2>
+    {post.data.description && <p class="mt-2 line-clamp-2 max-w-3xl text-sm leading-6 text-surface-ink/58 dark:text-surface-muted/65">{post.data.description}</p>}
+    <p class="mt-3 text-[11px] text-surface-ink/40 dark:text-white/35">{post.data.tags.join(" · ")}</p>
   </div>
+  <span class="pointer-events-none relative z-[1] text-xl text-brand transition group-hover:translate-x-1">→</span>
 </article>
