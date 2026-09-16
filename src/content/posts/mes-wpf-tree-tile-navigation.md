@@ -2,7 +2,7 @@
 title: "MES 桌面端功能拆解（二）：Tree / Tile 双模式导航"
 description: "在 WPF MES Shell 中实现树形与磁贴导航切换，并处理布局、事件同步和页面切换时序。"
 pubDate: 2026-08-26
-tags: ["MES", "WPF", "Prism", "交互设计"]
+tags: ["MES", "桌面端"]
 category: "项目实践"
 draft: false
 top: false
@@ -41,4 +41,3 @@ top: false
 ## 项目经历表述
 
 > 为 WPF MES Shell 增加 Tree / Tile 双模式导航，以 Prism EventAggregator 解耦 Shell 与工作台，并通过 Dispatcher 调度解决布局切换和菜单导航的时序冲突。
-

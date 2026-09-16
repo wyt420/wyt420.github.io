@@ -2,7 +2,7 @@
 title: "EAM 功能拆解（六）：信息化设备台账按科室名称查询"
 description: "为设备台账增加科室名称模糊查询，打通 Vue 查询表单与 MyBatis 动态 SQL。"
 pubDate: 2026-08-26
-tags: ["EAM", "Vue", "MyBatis", "设备台账"]
+tags: ["EAM", "后端开发"]
 category: "项目实践"
 draft: false
 top: false
@@ -37,4 +37,3 @@ Mapper 同时判断参数非 null 且非空，再使用 `LIKE CONCAT('%', value,
 ## 项目经历表述
 
 > 完成 EAM 信息化设备台账科室名称查询，贯通 Vue 查询参数与 MyBatis 动态 SQL，并验证分页、组合条件及数据权限下的模糊检索行为。
-

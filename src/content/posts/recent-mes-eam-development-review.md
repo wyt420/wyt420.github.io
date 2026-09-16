@@ -2,7 +2,7 @@
 title: "近期开发复盘：大马力 MES 与 EAM 多端交付"
 description: "复盘 2026 年近期在大马力 MES 与 EAM 项目中的开发工作：从双模式工作台、动态菜单，到物资、维修、设备台账和移动检修的持续交付。"
 pubDate: 2026-08-26
-tags: ["MES", "EAM", "Vue 3", "WPF", "Java", "uni-app", "项目复盘"]
+tags: ["MES", "EAM"]
 category: "项目实践"
 draft: false
 top: true

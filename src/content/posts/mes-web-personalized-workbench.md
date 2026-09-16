@@ -2,7 +2,7 @@
 title: "MES Web 功能拆解（二）：可配置首页工作台与偏好迁移"
 description: "使用 Pinia 持久化 MES 首页模块顺序、显隐和菜单偏好，并兼容旧配置升级。"
 pubDate: 2026-08-26
-tags: ["MES", "Vue 3", "Pinia", "工作台"]
+tags: ["MES", "Web 前端"]
 category: "项目实践"
 draft: false
 top: false
@@ -37,4 +37,3 @@ top: false
 ## 项目经历表述
 
 > 将 MES 首页拆分为可编排业务模块，使用 Pinia 按用户持久化顺序与显隐偏好，并设计旧配置迁移与默认项补全机制，保证版本升级后的布局兼容性。
-

@@ -2,7 +2,7 @@
 title: "A 股智能分析系统本地部署：LLM / 新闻 API 与钉钉推送集成实践"
 description: "基于开源项目 daily_stock_analysis，在 Windows 本地完成 Python 环境、Web 工作台、DeepSeek 大模型、Tavily 新闻搜索与钉钉群机器人推送的配置与踩坑记录。"
 pubDate: 2026-06-11
-tags: ["Python", "FastAPI", "LLM", "DeepSeek", "Tavily", "钉钉", "量化", "开源"]
+tags: ["AI 应用", "项目实践"]
 category: "项目实践"
 draft: false
 top: false

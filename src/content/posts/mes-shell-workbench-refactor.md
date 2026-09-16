@@ -2,7 +2,7 @@
 title: "MES 桌面客户端 Shell 重构：工作台首页与双模式导航"
 description: "在 WPF + Prism 模块化架构下，如何在不改动各业务模块的前提下，完成 Shell 视觉升级、工作台磁贴导航与树形/磁贴双模式切换。"
 pubDate: 2026-05-28
-tags: ["WPF", "Prism", "MVVM", "MES", "前端重构"]
+tags: ["MES", "桌面端"]
 category: "项目实践"
 draft: false
 top: true

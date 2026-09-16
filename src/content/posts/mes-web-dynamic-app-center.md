@@ -2,7 +2,7 @@
 title: "MES Web 功能拆解（一）：基于权限路由生成应用中心"
 description: "从 Vue Router 动态权限路由生成应用中心磁贴，解决多级菜单、跳转路径和双份配置问题。"
 pubDate: 2026-08-26
-tags: ["MES", "Vue 3", "Vue Router", "动态路由"]
+tags: ["MES", "Web 前端"]
 category: "项目实践"
 draft: false
 top: false
@@ -39,4 +39,3 @@ MES Web 菜单由后端权限接口返回，再动态注册到 Vue Router。新�
 ## 项目经历表述
 
 > 基于 Vue Router 权限路由设计 MES 应用中心，动态生成分组磁贴和搜索索引，统一树形菜单与平铺导航的数据源，并处理动态路由解析、缓存预热及 KeepAlive 状态保持问题。
-

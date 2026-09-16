@@ -2,7 +2,7 @@
 title: "EAM 功能拆解（九）：需求计划量检具校验的空值安全"
 description: "处理可选子类为空时的 Java 空指针，明确量检具校验的执行条件。"
 pubDate: 2026-08-26
-tags: ["EAM", "Java", "Spring Boot", "空值安全"]
+tags: ["EAM", "后端开发"]
 category: "问题复盘"
 draft: false
 top: false
@@ -35,4 +35,3 @@ top: false
 ## 项目经历表述
 
 > 修复 EAM 需求计划量检具分类校验的空指针，梳理可选子类的业务语义并调整 Java 字符串判断方式，兼容历史不完整数据和非量检具场景。
-

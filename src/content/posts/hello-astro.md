@@ -3,7 +3,7 @@ title: "Astro 博客从零搭建"
 description: "记录 Astro + Vue 3 + Tailwind 的基础搭建思路。"
 pubDate: 2026-05-12
 updatedDate: 2026-05-13
-tags: ["Astro", "Vue3", "Tailwind"]
+tags: ["网站建设"]
 category: "工程化"
 draft: false
 top: true

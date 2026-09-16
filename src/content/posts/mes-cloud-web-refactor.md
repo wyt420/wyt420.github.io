@@ -2,7 +2,7 @@
 title: "MES 智造云 Web 前端重构：工作台首页与双模式菜单"
 description: "在 Vue 3 + 芋道动态路由架构下，如何在不维护第二份菜单配置的前提下，完成首页工作台模块化、树形/平铺双模式导航与应用中心磁贴入口。"
 pubDate: 2026-05-28
-tags: ["Vue 3", "Pinia", "Vue Router", "MES", "前端重构"]
+tags: ["MES", "Web 前端"]
 category: "项目实践"
 draft: false
 top: true

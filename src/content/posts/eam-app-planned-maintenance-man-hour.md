@@ -2,7 +2,7 @@
 title: "EAM 功能拆解（七）：移动端计划检修人员与实际工时修复"
 description: "复盘 uni-app 计划检修中人员选择、对象编辑、时间校验与实际工时计算问题。"
 pubDate: 2026-08-26
-tags: ["EAM", "uni-app", "Vue 2", "移动端"]
+tags: ["EAM", "移动端"]
 category: "问题复盘"
 draft: false
 top: false
@@ -41,4 +41,3 @@ top: false
 ## 项目经历表述
 
 > 修复 uni-app 计划检修人工登记组件，处理 Vue 2 对象引用和数组响应式问题，补充时间合法性校验与实际工时计算，并优化人员选择和审批字段展示。
-

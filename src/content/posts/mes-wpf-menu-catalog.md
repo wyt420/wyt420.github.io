@@ -2,7 +2,7 @@
 title: "MES 桌面端功能拆解（一）：从 Prism Region 动态生成工作台菜单"
 description: "不维护第二份菜单配置，通过扫描 Prism Region 中的 MenuItem，为 WPF MES 工作台动态生成模块磁贴。"
 pubDate: 2026-08-26
-tags: ["MES", "WPF", "Prism", "MVVM", "菜单架构"]
+tags: ["MES", "桌面端"]
 category: "项目实践"
 draft: false
 top: false
@@ -48,4 +48,3 @@ MES 桌面客户端按计划、生产、质量、设备等业务拆成多个 Pri
 > 在 WPF + Prism 模块化 MES 中设计动态菜单聚合服务，从 Region 扫描现有菜单并生成工作台磁贴，复用原 MenuItem 导航链路，实现业务模块零侵入，解决双份菜单配置与权限不同步问题。
 
 关联专题：[MES 桌面客户端 Shell 重构](/posts/2026/05/mes-shell-workbench-refactor/)。
-

@@ -2,7 +2,7 @@
 title: "将首屏 JS 控制在 50KB 以内"
 description: "通过 Astro 岛屿架构和按需 hydration 控制包体积。"
 pubDate: 2026-05-10
-tags: ["性能优化", "Astro"]
+tags: ["网站建设"]
 category: "性能"
 draft: false
 top: false

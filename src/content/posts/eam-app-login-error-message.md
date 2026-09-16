@@ -2,7 +2,7 @@
 title: "EAM 功能拆解（八）：登录失败提示为空的运算符优先级问题"
 description: "一个三目表达式导致登录错误信息丢失：从问题定位到普通登录和免密登录反馈统一。"
 pubDate: 2026-08-26
-tags: ["EAM", "JavaScript", "uni-app", "错误处理"]
+tags: ["EAM", "移动端"]
 category: "问题复盘"
 draft: false
 top: false
@@ -33,4 +33,3 @@ top: false
 ## 项目经历表述
 
 > 修复 EAM App 登录异常信息丢失问题，定位 JavaScript 字符串拼接与三目运算符优先级错误，统一普通登录和免密登录的错误回退策略，提升现场问题可诊断性。
-

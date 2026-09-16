@@ -2,7 +2,7 @@
 title: "EAM 三端持续交付实践：物资、维修、台账与移动检修"
 description: "从近期真实迭代出发，整理 EAM Web、API 与 App 三端在物资盘点、外委维修、设备台账和计划检修中的实现重点与工程经验。"
 pubDate: 2026-08-26
-tags: ["EAM", "Vue", "Spring Boot", "uni-app", "企业应用", "稳定性"]
+tags: ["EAM", "项目实践"]
 category: "项目实践"
 draft: false
 top: true
