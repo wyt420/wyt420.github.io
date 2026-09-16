@@ -27,6 +27,10 @@ function assetUrl(src: string) {
   const base = import.meta.env.BASE_URL ?? "/";
   return src.startsWith("http") ? src : `${base}${src.replace(/^\//, "")}`;
 }
+
+function projectPreview(image: string) {
+  return image.replace(/\.png$/i, "-home.webp");
+}
 </script>
 
 <template>
@@ -38,7 +42,15 @@ function assetUrl(src: string) {
       <article v-for="(project, index) in ordered" :key="project.slug" class="group relative">
         <a :href="projectUrl(project.slug)" class="absolute inset-0 z-10" :aria-label="`查看项目：${project.name}`" />
         <div class="aspect-[16/9] overflow-hidden bg-stone-200 dark:bg-stone-800">
-          <img :src="assetUrl(project.image)" alt="" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.025]" loading="lazy" />
+          <img
+            :src="assetUrl(projectPreview(project.image))"
+            alt=""
+            width="1400"
+            height="788"
+            class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.025]"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div class="mt-4 grid grid-cols-[2.5rem_1fr] gap-3 border-t border-stone-300 pt-4 dark:border-white/15">
           <span class="font-serif text-sm text-brand">{{ String(index + 1).padStart(2, "0") }}</span>
